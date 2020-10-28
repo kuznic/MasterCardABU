@@ -15,9 +15,9 @@ import java.util.Scanner;
  * @version 1.0
  */
 
-public class createABUFolder
+public class CreateAbuFolder
 {
-    unzipZippedFolders unZipper = new unzipZippedFolders();
+    UnZipZippedFolders unZipper = new UnZipZippedFolders();
 
     public void create() throws IOException
     {

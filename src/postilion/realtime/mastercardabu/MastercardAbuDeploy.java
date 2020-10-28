@@ -12,13 +12,13 @@ import java.util.Scanner;
  * @since 23-10-2020
  */
 
-public class MastercardABUDeploy {
+public class MastercardAbuDeploy {
 
 
     public static void main(String[] args) {
         final Scanner scanner = new Scanner(System.in);
         final AbuTable abuTable = new AbuTable();
-        final createABUFolder createABUFolder = new createABUFolder();
+        final CreateAbuFolder createABUFolder = new CreateAbuFolder();
 
         System.out.println("1. Deploy Mastercard ABU:");
         System.out.println("2. Populate pc_cards_abu table with new records for reason code N:");
@@ -38,11 +38,11 @@ public class MastercardABUDeploy {
                     createABUFolder.create();
 
                     abuTable.createAbuTable();
-                    abuTable.check_pc_cards_view();
-                    abuTable.check_pc_card_accounts_view();
-                    abuTable.copy_records_to_abu_table();
-                    abuTable.create_triggers_on_ICA_issuer_tables();
-                    abuTable.create_proc_to_auto_populate_abu_table();
+                    abuTable.checkPcCardsView();
+                    abuTable.checkPcCardAccountsView();
+                    abuTable.copyRecordsToAbuTable();
+                    abuTable.createTriggersOnIcaIssuerTables();
+                    abuTable.createProcedureToAutoPopulateAbuTable();
                     break;
 
                 }
@@ -52,13 +52,13 @@ public class MastercardABUDeploy {
                     System.out.println("Enter ICA BINs separated by commas");
                     Scanner sn = new Scanner(System.in);
                     String bin_list = sn.nextLine();
-                    abuTable.insert_new_records_for_reason_code_N(bin_list);
+                    abuTable.insertNewRecordsForReasonCodeN(bin_list);
                     break;
                 }
 
                 case 3:
                     System.out.println("updating hold response code to 41....");
-                    abuTable.update_records_for_reason_code_C();
+                    abuTable.updateRecordsForReasonCodeC();
                     break;
 
                 default:

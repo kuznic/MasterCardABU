@@ -13,7 +13,7 @@ import java.util.zip.ZipInputStream;
  *
  */
 
-public class unzipZippedFolders
+public class UnZipZippedFolders
 
 {
     /**

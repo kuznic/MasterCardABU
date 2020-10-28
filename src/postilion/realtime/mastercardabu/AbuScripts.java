@@ -1,6 +1,6 @@
 package postilion.realtime.mastercardabu;
 
-public class ABUScripts {
+public class AbuScripts {
     /**
      * Script to create pc_cards_abu table
      * and other required scripts
