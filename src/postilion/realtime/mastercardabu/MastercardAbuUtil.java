@@ -12,12 +12,12 @@ import java.util.Scanner;
  * @since 23-10-2020
  */
 
-public class MastercardAbuDeploy {
+public class MastercardAbuUtil {
 
 
     public static void main(String[] args) {
         final Scanner scanner = new Scanner(System.in);
-        final AbuTable abuTable = new AbuTable();
+        final AbuTables abuTables = new AbuTables();
         final CreateAbuFolder createABUFolder = new CreateAbuFolder();
 
         System.out.println("1. Deploy Mastercard ABU:");
@@ -37,12 +37,12 @@ public class MastercardAbuDeploy {
                 {
                     createABUFolder.create();
 
-                    abuTable.createAbuTable();
-                    abuTable.checkPcCardsView();
-                    abuTable.checkPcCardAccountsView();
-                    abuTable.copyRecordsToAbuTable();
-                    abuTable.createTriggersOnIcaIssuerTables();
-                    abuTable.createProcedureToAutoPopulateAbuTable();
+                    abuTables.createAbuTable();
+                    abuTables.checkPcCardsView();
+                    abuTables.checkPcCardAccountsView();
+                    abuTables.copyRecordsToAbuTable();
+                    abuTables.createTriggersOnIcaIssuerTables();
+                    abuTables.createProcedureToAutoPopulateAbuTable();
                     break;
 
                 }
@@ -52,13 +52,13 @@ public class MastercardAbuDeploy {
                     System.out.println("Enter ICA BINs separated by commas");
                     Scanner sn = new Scanner(System.in);
                     String bin_list = sn.nextLine();
-                    abuTable.insertNewRecordsForReasonCodeN(bin_list);
+                    abuTables.insertNewRecordsForReasonCodeN(bin_list);
                     break;
                 }
 
                 case 3:
                     System.out.println("updating hold response code to 41....");
-                    abuTable.updateRecordsForReasonCodeC();
+                    abuTables.updateRecordsForReasonCodeC();
                     break;
 
                 default:
