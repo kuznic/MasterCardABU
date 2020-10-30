@@ -18,7 +18,7 @@ public class MastercardAbuUtil {
     public static void main(String[] args) {
         final Scanner scanner = new Scanner(System.in);
         final AbuTables abuTables = new AbuTables();
-        final CreateAbuFolder createABUFolder = new CreateAbuFolder();
+        final AbuFiles createABUFolder = new AbuFiles();
 
         System.out.println("1. Deploy Mastercard ABU:");
         System.out.println("2. Populate pc_cards_abu table with new records for reason code N:");
