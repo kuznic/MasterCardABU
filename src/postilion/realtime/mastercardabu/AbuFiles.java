@@ -19,7 +19,7 @@ public class AbuFiles
 {
     UnZipZippedFolders unZipper = new UnZipZippedFolders();
 
-    public void create() throws IOException
+    public void createAbuFolderAndCopyConfigFiles() throws IOException
     {
         //File abuFolder = new File("mastercardabu");// create a new File object for the mastercard abu folder
         File abuFolder = new File("C:\\mastercardabu");// create a new File object for the mastercard abu folder

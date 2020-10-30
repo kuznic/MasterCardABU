@@ -35,7 +35,7 @@ public class MastercardAbuUtil {
             {
                 case 1:
                 {
-                    createABUFolder.create();
+                    createABUFolder.createAbuFolderAndCopyConfigFiles();
 
                     abuTables.createAbuTable();
                     abuTables.checkPcCardsView();
