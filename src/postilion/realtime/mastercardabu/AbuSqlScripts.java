@@ -5,7 +5,7 @@ public class AbuSqlScripts {
      * Script to create pc_cards_abu table
      * and other required scripts
      */
-    public static final String TABLE_pc_cards_abu = "-- CREATE TABLE pc_cards_abu\n" +
+    public static final String TBL_PC_CARDS_ABU = "-- CREATE TABLE pc_cards_abu\n" +
             "IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[pc_cards_abu]') AND type in (N'U'))\n" +
             "BEGIN\n" +
             "DROP TABLE [dbo].[pc_cards_abu]\n" +
@@ -112,7 +112,7 @@ public class AbuSqlScripts {
      * stored procedure
      */
 
-    public static final String SP_get_all_active_cards = "CREATE PROCEDURE get_all_active_cards   @bins VARCHAR(200), @page_num INT,\n" +
+    public static final String SP_GET_ALL_ACTIVE_CARDS = "CREATE PROCEDURE get_all_active_cards   @bins VARCHAR(200), @page_num INT,\n" +
             "  @page_size INT AS\n" +
             "SELECT\n" +
             "  COUNT(*) AS count\n" +
@@ -163,7 +163,7 @@ public class AbuSqlScripts {
      * stored procedure
      */
 
-    public static final String SP_get_closed_cards = "CREATE PROCEDURE get_closed_cards   @bins VARCHAR(200), @page_num INT,\n" +
+    public static final String SP_GET_CLOSED_CARDS = "CREATE PROCEDURE get_closed_cards   @bins VARCHAR(200), @page_num INT,\n" +
             "  @page_size INT AS\n" +
             "SELECT\n" +
             "  COUNT(*) AS count\n" +
@@ -215,7 +215,7 @@ public class AbuSqlScripts {
      * get_all_chained_cards stored procedure
      */
 
-    public static final String SP_get_all_chained_cards= "CREATE PROCEDURE get_all_chained_cards @bins VARCHAR(200), @page_num INT,\n" +
+    public static final String SP_GET_ALL_CHAINED_CARDS = "CREATE PROCEDURE get_all_chained_cards @bins VARCHAR(200), @page_num INT,\n" +
             "@page_size INT AS\n" +
             "SELECT\n" +
             "COUNT(*) AS count\n" +
@@ -315,7 +315,7 @@ public class AbuSqlScripts {
      * update_status_chain_and_hierarchy stored procedure
      */
 
-    public static final String SP_update_status_chain_and_hierarchy = "CREATE PROCEDURE update_status_chain_and_hierarchy @updates TVPCardUpdatesTableType READONLY AS\n " +
+    public static final String SP_UPDATE_STATUS_CHAIN_AND_HIERARCHY = "CREATE PROCEDURE update_status_chain_and_hierarchy @updates TVPCardUpdatesTableType READONLY AS\n " +
             "BEGIN\n" +
             "UPDATE pc_cards_abu\n" +
             "SET    account_chain = u.account_chain,\n" +
@@ -329,7 +329,7 @@ public class AbuSqlScripts {
      * update_closed_card_status stored procedure
      */
 
-    public static final String SP_update_closed_card_status = "CREATE PROCEDURE update_closed_card_status @updates TVPClosedCardUpdatesTableType READONLY AS\n" +
+    public static final String SP_UPDATE_CLOSED_CARD_STATUS = "CREATE PROCEDURE update_closed_card_status @updates TVPClosedCardUpdatesTableType READONLY AS\n" +
             "BEGIN\n" +
             "UPDATE pc_cards_abu\n" +
             "SET    closed = u.closed\n" +
@@ -342,7 +342,7 @@ public class AbuSqlScripts {
      * and if the issuers for the ICA BINs are present in
      * the view
      */
-    public static final String check_pc_cards_view = "IF EXISTS (select * from sys.objects where object_id = OBJECT_ID(N'[dbo].[pc_cards]')  AND type in (N'V'))\n" +
+    public static final String CHECK_PC_CARDS_VIEW = "IF EXISTS (select * from sys.objects where object_id = OBJECT_ID(N'[dbo].[pc_cards]')  AND type in (N'V'))\n" +
             "BEGIN\n" +
             "select distinct cp.card_prefix from pc_cards as pc\n" +
             "inner join pc_card_programs as cp\n" +
@@ -356,7 +356,7 @@ public class AbuSqlScripts {
      * the view
      */
 
-    public static final String check_pc_card_accounts_view = "IF EXISTS (select * from sys.objects where object_id = OBJECT_ID(N'[dbo].[pc_card_accounts]')  AND type in (N'V'))\n" +
+    public static final String CHECK_PC_CARD_ACCOUNTS_VIEW = "IF EXISTS (select * from sys.objects where object_id = OBJECT_ID(N'[dbo].[pc_card_accounts]')  AND type in (N'V'))\n" +
             "BEGIN\n" +
             "select distinct cp.card_prefix from pc_card_accounts as ca\n" +
             "inner join pc_card_programs as cp\n" +
@@ -368,7 +368,7 @@ public class AbuSqlScripts {
      * Script to fetch issuers
      */
 
-    public static final String fetch_issuers = "select issuer_nr from pc_card_programs where card_prefix in (?)";
+    public static final String FETCH_ISSUERS = "select issuer_nr from pc_card_programs where card_prefix in (?)";
 
     /**
      * Script to copy data from pc_cards to pc_cards_abu table in
@@ -377,7 +377,7 @@ public class AbuSqlScripts {
      * be copied over for the purpose of testing
      */
 
-    public static final String populate_pc_cards_abu_table_test = "INSERT INTO [dbo].[pc_cards_abu]\n" +
+    public static final String POPULATE_PC_CARDS_ABU_TABLE_TEST = "INSERT INTO [dbo].[pc_cards_abu]\n" +
             "           ([issuer_nr]\n" +
             "           ,[pan]\n" +
             "           ,[seq_nr]\n" +
@@ -472,7 +472,7 @@ public class AbuSqlScripts {
      * Script to copy data from pc_cards to pc_cards_abu table in
      * production  environment
      */
-    public static final String populate_pc_cards_abu_table_prod = "INSERT INTO [dbo].[pc_cards_abu]\n" +
+    public static final String POPULATE_PC_CARDS_ABU_TABLE_PROD = "INSERT INTO [dbo].[pc_cards_abu]\n" +
             "           ([issuer_nr]\n" +
             "           ,[pan]\n" +
             "           ,[seq_nr]\n" +
@@ -568,7 +568,7 @@ public class AbuSqlScripts {
      * pc_cards_abu table
      */
 
-    public static final String IX_pc_cards_abu = "CREATE NONCLUSTERED INDEX [ix_pc_cards_abu]\n" +
+    public static final String IX_PC_CARDS_ABU = "CREATE NONCLUSTERED INDEX [ix_pc_cards_abu]\n" +
             "ON [dbo].[pc_cards_abu] ([pan],[seq_nr])\n" +
             "INCLUDE ([id])";
 
@@ -578,12 +578,12 @@ public class AbuSqlScripts {
      */
 
 
-    public static final String IX_pc_cards_abu_2 = "CREATE NONCLUSTERED INDEX [ix_pc_cards_abu_2]\n" +
+    public static final String IX_PC_CARDS_ABU_2 = "CREATE NONCLUSTERED INDEX [ix_pc_cards_abu_2]\n" +
             "ON [dbo].[pc_cards_abu] ([card_status],[hold_rsp_code],[account_hierarchy],[expiry_date])\n";
 
-    public static final String TR_pc_cards_part_1 = "CREATE TRIGGER [dbo].[tr_at_update_mastercard_abu_";
-    public static final String TR_pc_cards_part_2 = "ON [dbo].[pc_cards_";
-    public static final String TR_pc_cards_part_3 = " after update AS\n" +
+    public static final String TR_PC_CARDS_PART_1 = "CREATE TRIGGER [dbo].[tr_at_update_mastercard_abu_";
+    public static final String TR_PC_CARDS_PART_2 = "ON [dbo].[pc_cards_";
+    public static final String TR_PC_CARDS_PART_3 = " after update AS\n" +
             "BEGIN \n" +
             "set nocount on;\n" +
             "UPDATE pc_cards_abu SET card_status = i.card_status\n" +
@@ -598,16 +598,16 @@ public class AbuSqlScripts {
     /**
      * Used to drop the abu triggers from the issuer table
      */
-    public static final String drop_triggers_part_1 = "IF EXISTS (select * from sys.objects where object_id = OBJECT_ID(N'[dbo].[tr_at_update_mastercard_abu_";
-    public static final String drop_triggers_part_2 ="')  AND type in (N'TR'))\n" +
+    public static final String DROP_TRIGGERS_PART_1 = "IF EXISTS (select * from sys.objects where object_id = OBJECT_ID(N'[dbo].[tr_at_update_mastercard_abu_";
+    public static final String DROP_TRIGGERS_PART_2 ="')  AND type in (N'TR'))\n" +
             "BEGIN\n" +
             "DROP TRIGGER ";
-    public static final String drop_triggers_part_3 = "\nEND\n" +
+    public static final String DROP_TRIGGERS_PART_3 = "\nEND\n" +
             "ELSE\n" +
             "RETURN";
 
 
-    public static final String SP_insert_new_records_in_ABU_table_part_1 = "create procedure abu_insert_new_records\n" +
+    public static final String SP_INSERT_NEW_RECORDS_IN_ABU_TABLE_PART_1 = "create procedure abu_insert_new_records\n" +
             "as \n" +
             "declare @abu_last_updated_date  varchar(15)\n" +
             "set @abu_last_updated_date =(select top 1 CONVERT(VARcHAR(10), last_updated_date, 111) from pc_cards_abu nolock\n" +
@@ -702,9 +702,9 @@ public class AbuSqlScripts {
             "  FROM [dbo].[pc_cards]\n" +
             "where date_deleted is null  and substring(pan,1,6) in (";
 
-    public static final String SP_insert_new_records_in_ABU_table_part_2= ") and last_updated_date > @abu_last_updated_date";
+    public static final String SP_INSERT_NEW_RECORDS_IN_ABU_TABLE_PART_2 = ") and last_updated_date > @abu_last_updated_date";
 
-    public static final String drop_SP_insert_new_records_in_ABU_table =  "IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id (N'[dbo].[abu_insert_new_records]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)\n" +
+    public static final String DROP_SP_INSERT_NEW_RECORDS_IN_ABU_TABLE =  "IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id (N'[dbo].[abu_insert_new_records]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)\n" +
             "BEGIN\n" +
             "DROP PROCEDURE [dbo].[abu_insert_new_records]\n" +
             "END;\n" ;
@@ -714,7 +714,7 @@ public class AbuSqlScripts {
      * with new records for reason code N
      */
 
-    public static final String populate_pc_cards_abu_table_test_for_code_N = "with pan_cte as \n" +
+    public static final String POPULATE_PC_CARDS_ABU_TABLE_TEST_FOR_CODE_N = "with pan_cte as \n" +
             "(" +
             "select * from pc_cards (nolock) where \n" +
             "pan not in (select pan from pc_cards_abu)\n" +
@@ -765,7 +765,9 @@ public class AbuSqlScripts {
             "                  from pan_cte where substring(pan,1,6) in (?)";
 
 
-    public static final String fetch_records_from_pc_cards_abu = "select top 2 [issuer_nr],[pan] from [dbo].[pc_cards_abu] (nolock)";
+    public static final String FETCH_RECORDS_FROM_PC_CARDS_ABU = "select top 2 [issuer_nr],[pan] from [dbo].[pc_cards_abu] (nolock)";
+
+    public static final String FETCH_CLOSED_RECORD = "SELECT TOP 1 PAN FROM PC_CARDS_ABU WHERE HOLD_RSP_CODE = 41";
 }
 
 
