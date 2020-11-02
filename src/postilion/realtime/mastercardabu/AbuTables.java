@@ -89,7 +89,7 @@ public class AbuTables {
         {
             //check to see if pc_cards view exist and if the issuers for the card programs that have the ICA bins are part of the view
 
-            PreparedStatement check_pc_cards_view = conn.prepareStatement(AbuSqlScripts.CHECK_PC_CARDS_VIEW);
+            PreparedStatement checkPcCardsView = conn.prepareStatement(AbuSqlScripts.CHECK_PC_CARDS_VIEW);
 
             //Passing parameters to check if present in the pc_cards view
             System.out.println();
@@ -129,8 +129,8 @@ public class AbuTables {
             System.out.println();
             System.out.println("Checking if pc_cards view exists..........");
             for (String s : icBinsToSet) {
-                check_pc_cards_view.setString(1, s);
-                ResultSet rs = check_pc_cards_view.executeQuery();
+                checkPcCardsView.setString(1, s);
+                ResultSet rs = checkPcCardsView.executeQuery();
                 while (rs.next()) {
                     icaBinsInDiffViews.add(rs.getString(1));
                 }
@@ -194,13 +194,13 @@ public class AbuTables {
         try
         {
             //check to see if pc_card_accounts view exist and if the issuers for the card programs that have the ICA bins are part of the view
-            PreparedStatement check_pc_card_accounts_view = conn.prepareStatement(AbuSqlScripts.CHECK_PC_CARD_ACCOUNTS_VIEW);
+            PreparedStatement checkPcCardAccountsView = conn.prepareStatement(AbuSqlScripts.CHECK_PC_CARD_ACCOUNTS_VIEW);
 
             //fetching a bin set from pc_card_accounts view based on passed BINs parameter
             icaBinsInDiffViews.clear();//clear after been used in pc_cards_view
             for (String s : icBinsToSet) {
-                check_pc_card_accounts_view.setString(1, s);
-                ResultSet rs = check_pc_card_accounts_view.executeQuery();
+                checkPcCardAccountsView.setString(1, s);
+                ResultSet rs = checkPcCardAccountsView.executeQuery();
                 while (rs.next()) {
                     icaBinsInDiffViews.add(rs.getString(1));
                 }
@@ -248,27 +248,27 @@ public class AbuTables {
         {
             System.out.println();
             System.out.println("Is this a test or production environment? TEST/PROD?");
-            PreparedStatement populate_pc_cards_abu_table_test = conn.prepareStatement(AbuSqlScripts.POPULATE_PC_CARDS_ABU_TABLE_TEST);
-            PreparedStatement populate_pc_cards_abu_table_prod = conn.prepareStatement(AbuSqlScripts.POPULATE_PC_CARDS_ABU_TABLE_PROD);
-            String type_of_environment = scanner.nextLine().toUpperCase();
+            PreparedStatement populatePcCardsAbuTableTest = conn.prepareStatement(AbuSqlScripts.POPULATE_PC_CARDS_ABU_TABLE_TEST);
+            PreparedStatement populatePcCardsAbuTableProd = conn.prepareStatement(AbuSqlScripts.POPULATE_PC_CARDS_ABU_TABLE_PROD);
+            String typeOfEnvironment = scanner.nextLine().toUpperCase();
             System.out.println();
-            if(type_of_environment.equalsIgnoreCase("TEST") || type_of_environment.equalsIgnoreCase("T"))
+            if(typeOfEnvironment.equalsIgnoreCase("TEST") || typeOfEnvironment.equalsIgnoreCase("T"))
             {
                 System.out.println("Copying data from pc_cards to pc_cards_abu table...............");
                 for(String s: icBinsToSet)
                 {
-                    populate_pc_cards_abu_table_test.setString(1,s);
-                    System.out.println(populate_pc_cards_abu_table_test.executeUpdate() + " records copied!");
+                    populatePcCardsAbuTableTest.setString(1,s);
+                    System.out.println(populatePcCardsAbuTableTest.executeUpdate() + " records copied!");
                 }
             }
 
-            else if(type_of_environment.equalsIgnoreCase("PROD") || type_of_environment.equalsIgnoreCase("P"))
+            else if(typeOfEnvironment.equalsIgnoreCase("PROD") || typeOfEnvironment.equalsIgnoreCase("P"))
             {
                 System.out.println("Copying data from pc_cards to pc_cards_abu table...............");
                 for(String s: icBinsToSet)
                 {
-                    populate_pc_cards_abu_table_prod.setString(1,s);
-                    System.out.println(populate_pc_cards_abu_table_prod.executeUpdate() + " records copied!");
+                    populatePcCardsAbuTableProd.setString(1,s);
+                    System.out.println(populatePcCardsAbuTableProd.executeUpdate() + " records copied!");
                 }
             }
 
@@ -296,32 +296,32 @@ public class AbuTables {
     {
         try
         {
-            Set<String> issuers_for_trigger = new HashSet<String>();//Set to hold the issuers that the trigger will be created on
+            Set<String> issuersForTrigger = new HashSet<String>();//Set to hold the issuers that the trigger will be created on
 
             //fetch the issuers that will have triggers created on them
             for(String s: icBinsToSet){
-                PreparedStatement get_issuer = conn.prepareStatement(AbuSqlScripts.FETCH_ISSUERS);
-                get_issuer.setString(1,s);
-                ResultSet rt = get_issuer.executeQuery();
+                PreparedStatement getIssuer = conn.prepareStatement(AbuSqlScripts.FETCH_ISSUERS);
+                getIssuer.setString(1,s);
+                ResultSet rt = getIssuer.executeQuery();
 
                 while(rt.next())
                 {
-                    issuers_for_trigger.add(rt.getString(1));
+                    issuersForTrigger.add(rt.getString(1));
                 }
             }
 
             //create the triggers
             System.out.println();
-            for(String s:issuers_for_trigger){
-                PreparedStatement drop_trigger = conn.prepareStatement(AbuSqlScripts.DROP_TRIGGERS_PART_1 + s +"_A]"+ AbuSqlScripts.DROP_TRIGGERS_PART_2
+            for(String s:issuersForTrigger){
+                PreparedStatement dropTrigger = conn.prepareStatement(AbuSqlScripts.DROP_TRIGGERS_PART_1 + s +"_A]"+ AbuSqlScripts.DROP_TRIGGERS_PART_2
                         + "[dbo].[tr_at_update_mastercard_abu_" + s + "_A]" + AbuSqlScripts.DROP_TRIGGERS_PART_3);
 
-                drop_trigger.execute();
+                dropTrigger.execute();
 
                 System.out.println("Creating trigger " + "[dbo].[tr_at_update_mastercard_abu_" + s + "_A].......");
-                PreparedStatement create_trigger = conn.prepareStatement(AbuSqlScripts.TR_PC_CARDS_PART_1 + s  +"_A]" +
+                PreparedStatement createTrigger = conn.prepareStatement(AbuSqlScripts.TR_PC_CARDS_PART_1 + s  +"_A]" +
                         AbuSqlScripts.TR_PC_CARDS_PART_2 + s + "_A]"+ AbuSqlScripts.TR_PC_CARDS_PART_3);
-                create_trigger.executeUpdate();
+                createTrigger.executeUpdate();
             }
 
 
@@ -344,8 +344,8 @@ public class AbuTables {
         try
         {
             System.out.println();
-            PreparedStatement drop_SP_insert_new_records_in_ABU_table = conn.prepareStatement(AbuSqlScripts.DROP_SP_INSERT_NEW_RECORDS_IN_ABU_TABLE);
-            drop_SP_insert_new_records_in_ABU_table.execute();
+            PreparedStatement dropSPInsertNewRecordsInABUTable = conn.prepareStatement(AbuSqlScripts.DROP_SP_INSERT_NEW_RECORDS_IN_ABU_TABLE);
+            dropSPInsertNewRecordsInABUTable.execute();
 
             String[] abu_bins= icBinsToSet.toArray(new String[0]);
             StringBuilder bin_buffer = new StringBuilder();
@@ -363,9 +363,9 @@ public class AbuTables {
             }
 
             System.out.println("Creating stored proc abu_insert_new_records.................");
-            PreparedStatement create_SP_insert_new_records_in_ABU_table = conn.prepareStatement(AbuSqlScripts.SP_INSERT_NEW_RECORDS_IN_ABU_TABLE_PART_1 + bin_buffer
+            PreparedStatement createSPInsertNewRecordsInABUTable = conn.prepareStatement(AbuSqlScripts.SP_INSERT_NEW_RECORDS_IN_ABU_TABLE_PART_1 + bin_buffer
                     + AbuSqlScripts.SP_INSERT_NEW_RECORDS_IN_ABU_TABLE_PART_2);
-            create_SP_insert_new_records_in_ABU_table.execute();
+            createSPInsertNewRecordsInABUTable.execute();
 
             conn.close();
 
@@ -387,14 +387,14 @@ public class AbuTables {
         try
         {
             conn=JdbcManager.getConnection("postcard");
-            String [] bin_list = ICA_bins.split(",");
-            //PreparedStatement populate_pc_cards_abu_table_test_for_code_N = conn.prepareStatement(AbuSqlScripts.populate_pc_cards_abu_table_test_for_code_N);
-            PreparedStatement populate_pc_cards_abu_table_test_for_code_N = conn.prepareStatement(AbuSqlScripts.POPULATE_PC_CARDS_ABU_TABLE_TEST_FOR_CODE_N);
-            for(String s: bin_list)
+            String [] binList = ICA_bins.split(",");
+            //PreparedStatement populatePcCardsAbuTableTestForCodeN = conn.prepareStatement(AbuSqlScripts.populatePcCardsAbuTableTestForCodeN);
+            PreparedStatement populatePcCardsAbuTableTestForCodeN = conn.prepareStatement(AbuSqlScripts.POPULATE_PC_CARDS_ABU_TABLE_TEST_FOR_CODE_N);
+            for(String s: binList)
             {
                 System.out.println("Copying records for BIN " + s + " from pc_cards to pc_cards_abu............");
-                populate_pc_cards_abu_table_test_for_code_N.setString(1,s);
-                System.out.println(populate_pc_cards_abu_table_test_for_code_N.executeUpdate() + " added");
+                populatePcCardsAbuTableTestForCodeN.setString(1,s);
+                System.out.println(populatePcCardsAbuTableTestForCodeN.executeUpdate() + " added");
                 conn.commit();
             }
         }
@@ -413,24 +413,24 @@ public class AbuTables {
      */
     public void updateRecordsForReasonCodeC()
     {
-        Map<String,String> issuer_pan = new HashMap<String, String>();//This HashMap will hold issuer_nr and pan present in
+        Map<String,String> issuerPan = new HashMap<String, String>();//This HashMap will hold issuer_nr and pan present in
         try
         {
             conn = JdbcManager.getConnection("postcard");
-            PreparedStatement update_records_for_reason_code_C = conn.prepareStatement(AbuSqlScripts.FETCH_RECORDS_FROM_PC_CARDS_ABU);
-            ResultSet rs = update_records_for_reason_code_C.executeQuery();
+            PreparedStatement updateRecordsForReasonCodeC = conn.prepareStatement(AbuSqlScripts.FETCH_RECORDS_FROM_PC_CARDS_ABU);
+            ResultSet rs = updateRecordsForReasonCodeC.executeQuery();
 
             while (rs.next())
             {
-                issuer_pan.put(rs.getString(1), rs.getString(2));
+                issuerPan.put(rs.getString(1), rs.getString(2));
             }
             rs.close();
 
-            for (Map.Entry<String, String> entry : issuer_pan.entrySet())
+            for (Map.Entry<String, String> entry : issuerPan.entrySet())
             {
-             update_records_for_reason_code_C = conn.prepareStatement("update pc_cards_" + entry.getKey() +"_A\n" + "set hold_rsp_code = 41 where pan in ('" +
+             updateRecordsForReasonCodeC = conn.prepareStatement("update pc_cards_" + entry.getKey() +"_A\n" + "set hold_rsp_code = 41 where pan in ('" +
                      entry.getValue() +"')");
-             update_records_for_reason_code_C.executeUpdate();
+             updateRecordsForReasonCodeC.executeUpdate();
 
             }
             conn.commit();
