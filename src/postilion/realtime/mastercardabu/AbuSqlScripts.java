@@ -768,17 +768,17 @@ public class AbuSqlScripts {
     /**
      * Fetch top two records from pc_cards_abu table
      */
-    public static final String FETCH_RECORDS_FROM_PC_CARDS_ABU = "select top 2 [issuer_nr],[pan] from [dbo].[pc_cards_abu] (nolock)";
+    public static final String FETCH_RECORDS_FROM_PC_CARDS_ABU = "select top 2 [issuer_nr],[pan] from [dbo].[pc_cards_abu] (nolock) where account_chain is not null";
 
     /**
      * Fetch closed record from pc_cards_abu table
      */
-    public static final String FETCH_CLOSED_RECORD = "SELECT TOP 1 ISSUER_NR,PAN FROM PC_CARDS_ABU WHERE HOLD_RSP_CODE = 41";
+    public static final String FETCH_CLOSED_RECORD = "SELECT TOP 1 ISSUER_NR,PAN FROM PC_CARDS_ABU WHERE HOLD_RSP_CODE = 41 AND CLOSED = 1";
 
     public static final String INSERT_INTO_PC_CARDS_ISSUER_TABLE = "(issuer_nr,pan,seq_nr,card_program,default_account_type,card_status,expiry_date,hold_rsp_code," +
             "pvki_or_pin_length,pvv_or_pin_offset,mailer_destination,discretionary_data," +
             "date_issued,date_activated,branch_code,last_updated_date,last_updated_user,customer_id,company_card,pvki2_or_pin2_length)\n" +
-            "select issuer_nr,?,seq_nr,card_program,default_account_type,card_status,expiry_date,hold_rsp_code,pvki_or_pin_length,pvv_or_pin_offset,mailer_destination,discretionary_data,getdate(),GETDATE(),branch_code,GETDATE(),last_updated_user,customer_id,company_card,pvki2_or_pin2_length\n" +
+            "select issuer_nr,?,seq_nr,card_program,default_account_type,card_status,expiry_date,null,pvki_or_pin_length,pvv_or_pin_offset,mailer_destination,discretionary_data,getdate(),GETDATE(),branch_code,GETDATE(),last_updated_user,customer_id,company_card,pvki2_or_pin2_length\n" +
             "from pc_cards_abu where pan = ?";
 
     public static final String INSERT_INTO_PC_CARD_ACCOUNTS_ISSUER_TABLE = "(issuer_nr,pan,seq_nr,account_id,account_type_nominated,account_type_qualifier,last_updated_date," +
@@ -788,9 +788,9 @@ public class AbuSqlScripts {
 
     public static final String INSERT_INTO_PC_CARDS_ABU_TABLE = "insert into pc_cards_abu (issuer_nr,pan,seq_nr,card_program,default_account_type,card_status," +
             "expiry_date,hold_rsp_code,pvki_or_pin_length,pvv_or_pin_offset,mailer_destination,discretionary_data,date_issued,date_activated,branch_code," +
-            "last_updated_date,last_updated_user,customer_id,company_card,pvki2_or_pin2_length,0 ,null,null,0)\n" +
+            "last_updated_date,last_updated_user,customer_id,company_card,pvki2_or_pin2_length,upload_status,account_chain,account_hierarchy,closed)\n" +
             "select issuer_nr,pan,seq_nr,card_program,default_account_type,card_status," +
-            "expiry_date,hold_rsp_code,pvki_or_pin_length,pvv_or_pin_offset,mailer_destination,discretionary_data,date_issued,date_activated,branch_code," +
+            "expiry_date,null,pvki_or_pin_length,pvv_or_pin_offset,mailer_destination,discretionary_data,date_issued,date_activated,branch_code," +
             "last_updated_date,last_updated_user,customer_id,company_card,pvki2_or_pin2_length,0 ,null,null,0"+
             " from pc_cards where pan = ?";
 

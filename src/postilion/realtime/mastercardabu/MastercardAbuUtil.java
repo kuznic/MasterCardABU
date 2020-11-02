@@ -23,8 +23,9 @@ public class MastercardAbuUtil {
         System.out.println("1. Deploy Mastercard ABU:");
         System.out.println("2. Populate pc_cards_abu table with new records for reason code N:");
         System.out.println("3. Modify pc_cards_abu records for reason code C:");
+        System.out.println("4. Add new record for reason code R");
         System.out.println();
-        System.out.println("Options 2 and 3 used only be used on the test environment");
+        System.out.println("Options 2,3 and 4 should be used only on the test environment");
         System.out.println();
 
         try

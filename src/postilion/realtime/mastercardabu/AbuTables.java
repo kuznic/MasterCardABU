@@ -456,23 +456,25 @@ public class AbuTables {
         {
             Scanner scanner = new Scanner(System.in);
             Map<String, String> issuerPan = new HashMap<String, String>();//hashed map to hold issuer number and new PAN
-            String replacementPan;//holds new pan
+            String replacementPan = null;//holds new pan
+            String panToBeReplaced = null;
             conn = JdbcManager.getConnection("postcard");
             PreparedStatement fetchClosedPan = conn.prepareStatement(AbuSqlScripts.FETCH_CLOSED_RECORD);//fetch a closed record
-
             ResultSet rs = fetchClosedPan.executeQuery();
-            String issuerNumber = rs.getString(1);
-            String panToBeReplaced = rs.getString(2);
+
+
+
+
+            while(rs.next())
+            {
+                String issuerNumber = rs.getString(1);
+                panToBeReplaced = rs.getString(2);
+                System.out.println("Provide new pan that will serve as replacement for the following closed record with PAN: " + panToBeReplaced);
+                replacementPan = scanner.nextLine();
+                issuerPan.put(issuerNumber,replacementPan);
+            }
+
             rs.close();
-
-
-
-            System.out.println("Provide new pan that will serve as replacement for the following closed record with PAN: " + panToBeReplaced);
-            replacementPan = scanner.nextLine();
-
-            issuerPan.put(issuerNumber,replacementPan);
-
-
 
             for (Map.Entry<String, String> entry : issuerPan.entrySet())
             {
@@ -488,10 +490,11 @@ public class AbuTables {
 
                 PreparedStatement insertNewCardRecordInAbuTable = conn.prepareStatement(AbuSqlScripts.INSERT_INTO_PC_CARDS_ABU_TABLE);
                 insertNewCardRecordInAbuTable.setString(1,replacementPan);
+                System.out.println(AbuSqlScripts.INSERT_INTO_PC_CARDS_ABU_TABLE);
                 insertNewCardRecordInAbuTable.executeUpdate();
 
             }
-
+            conn.commit();
             conn.close();
 
 
