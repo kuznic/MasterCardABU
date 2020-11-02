@@ -778,19 +778,19 @@ public class AbuSqlScripts {
     public static final String INSERT_INTO_PC_CARDS_ISSUER_TABLE = "(issuer_nr,pan,seq_nr,card_program,default_account_type,card_status,expiry_date,hold_rsp_code," +
             "pvki_or_pin_length,pvv_or_pin_offset,mailer_destination,discretionary_data," +
             "date_issued,date_activated,branch_code,last_updated_date,last_updated_user,customer_id,company_card,pvki2_or_pin2_length)\n" +
-            "select issuer_nr,?,seq_nr,card_program,default_account_type,card_status,expiry_date,null,pvki_or_pin_length,pvv_or_pin_offset,mailer_destination,discretionary_data,getdate(),GETDATE(),branch_code,GETDATE(),last_updated_user,customer_id,company_card,pvki2_or_pin2_length\n" +
+            "select issuer_nr,?,'005',card_program,default_account_type,card_status,'2312',null,pvki_or_pin_length,pvv_or_pin_offset,mailer_destination,discretionary_data,getdate(),GETDATE(),branch_code,GETDATE(),last_updated_user,customer_id,company_card,pvki2_or_pin2_length\n" +
             "from pc_cards_abu where pan = ?";
 
     public static final String INSERT_INTO_PC_CARD_ACCOUNTS_ISSUER_TABLE = "(issuer_nr,pan,seq_nr,account_id,account_type_nominated,account_type_qualifier,last_updated_date," +
             "last_updated_user,account_type,date_deleted)\n" +
-            "select issuer_nr,?,seq_nr,account_id,account_type_nominated,account_type_qualifier,getdate(),last_updated_user,account_type,date_deleted\n" +
+            "select issuer_nr,?,'005',account_id,account_type_nominated,account_type_qualifier,getdate(),last_updated_user,account_type,date_deleted\n" +
             "from pc_card_accounts where pan = ?";
 
     public static final String INSERT_INTO_PC_CARDS_ABU_TABLE = "insert into pc_cards_abu (issuer_nr,pan,seq_nr,card_program,default_account_type,card_status," +
             "expiry_date,hold_rsp_code,pvki_or_pin_length,pvv_or_pin_offset,mailer_destination,discretionary_data,date_issued,date_activated,branch_code," +
             "last_updated_date,last_updated_user,customer_id,company_card,pvki2_or_pin2_length,upload_status,account_chain,account_hierarchy,closed)\n" +
-            "select issuer_nr,pan,seq_nr,card_program,default_account_type,card_status," +
-            "expiry_date,null,pvki_or_pin_length,pvv_or_pin_offset,mailer_destination,discretionary_data,date_issued,date_activated,branch_code," +
+            "select issuer_nr,pan,'005',card_program,default_account_type,card_status," +
+            "'2312',null,pvki_or_pin_length,pvv_or_pin_offset,mailer_destination,discretionary_data,date_issued,date_activated,branch_code," +
             "last_updated_date,last_updated_user,customer_id,company_card,pvki2_or_pin2_length,0 ,null,null,0"+
             " from pc_cards where pan = ?";
 

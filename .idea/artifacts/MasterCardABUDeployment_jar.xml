@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="MasterCardABUDeployment:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/MasterCardABUDeployment_jar</output-path>
+    <root id="archive" name="MasterCardABUDeployment.jar">
+      <element id="module-output" name="MasterCardABUDeployment" />
+    </root>
+  </artifact>
+</component>

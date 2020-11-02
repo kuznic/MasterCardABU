@@ -472,6 +472,7 @@ public class AbuTables {
                 System.out.println("Provide new pan that will serve as replacement for the following closed record with PAN: " + panToBeReplaced);
                 replacementPan = scanner.nextLine();
                 issuerPan.put(issuerNumber,replacementPan);
+                System.out.println("got here");
             }
 
             rs.close();
