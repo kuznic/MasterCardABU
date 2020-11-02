@@ -16,10 +16,10 @@ import java.util.*;
 
 public class AbuTables {
     private Connection conn;
-    private final Set<String> ica_bins_in_diff_views = new HashSet<String>();//Set, to hold bins present in pc_cards_view
-    private final Set<String> ic_bins_to_set = new HashSet<String>();//set to hold bins passed as parameters
-    private final Set<String> missing_issuers_in_diff_views = new HashSet<String>();//Set, to hold the issuers that need to be added to the different views
-    private PreparedStatement fetch_issuer;
+    private final Set<String> icaBinsInDiffViews = new HashSet<String>();//Set, to hold bins present in pc_cards_view
+    private final Set<String> icBinsToSet = new HashSet<String>();//set to hold bins passed as parameters
+    private final Set<String> missingIssuersInDiffViews = new HashSet<String>();//Set, to hold the issuers that need to be added to the different views
+    private PreparedStatement fetchIssuer;
     private final Scanner scanner = new Scanner(System.in);
 
     {
@@ -46,9 +46,9 @@ public class AbuTables {
             Statement create_pc_cards_abu_table = conn.createStatement();
             System.out.println("Creating pc_cards_abu table..........");
             create_pc_cards_abu_table.execute(AbuSqlScripts.TBL_PC_CARDS_ABU);
-            System.out.println("Creating index 1 on pc_cards_abi table..............");
+            System.out.println("Creating index ix_pc_cards_abu on pc_cards_abi table..............");
             create_pc_cards_abu_table.execute(AbuSqlScripts.IX_PC_CARDS_ABU);
-            System.out.println("Creating index 2 on pc_cards_abi table..............");
+            System.out.println("Creating index ix_pc_cards_abu_2 on pc_cards_abi table..............");
             create_pc_cards_abu_table.execute(AbuSqlScripts.IX_PC_CARDS_ABU_2);
             System.out.println("Creating get_all_active_cards stored procedure...........");
             create_pc_cards_abu_table.execute(AbuSqlScripts.SP_GET_ALL_ACTIVE_CARDS);
@@ -123,16 +123,16 @@ public class AbuTables {
                 }
             }
 
-            Collections.addAll(ic_bins_to_set, ica_bins);//convert bin array to hashed set
+            Collections.addAll(icBinsToSet, ica_bins);//convert bin array to hashed set
 
             //fetching a bin set from pc_cards view based on passed BINs parameter
             System.out.println();
             System.out.println("Checking if pc_cards view exists..........");
-            for (String s : ic_bins_to_set) {
+            for (String s : icBinsToSet) {
                 check_pc_cards_view.setString(1, s);
                 ResultSet rs = check_pc_cards_view.executeQuery();
                 while (rs.next()) {
-                    ica_bins_in_diff_views.add(rs.getString(1));
+                    icaBinsInDiffViews.add(rs.getString(1));
                 }
             }
 
@@ -140,19 +140,19 @@ public class AbuTables {
 
 
             //check if all the issuers for ICA BINs provided are present in the pc_cards view
-            if(ica_bins_in_diff_views.equals(ic_bins_to_set) && ic_bins_to_set.size()> 0)
+            if(icaBinsInDiffViews.equals(icBinsToSet) && icBinsToSet.size()> 0)
             {
                 System.out.println();
                 System.out.println("pc_cards view exists and all the required issuers for the ICA BINs are part of the view");
             }
 
             else {
-                missing_issuers_in_diff_views.addAll(ic_bins_to_set);
-                missing_issuers_in_diff_views.removeAll(ica_bins_in_diff_views);
-                fetch_issuer = conn.prepareStatement(AbuSqlScripts.FETCH_ISSUERS);
-                for(String s : missing_issuers_in_diff_views){
-                    fetch_issuer.setString(1,s);
-                    ResultSet rn = fetch_issuer.executeQuery();
+                missingIssuersInDiffViews.addAll(icBinsToSet);
+                missingIssuersInDiffViews.removeAll(icaBinsInDiffViews);
+                fetchIssuer = conn.prepareStatement(AbuSqlScripts.FETCH_ISSUERS);
+                for(String s : missingIssuersInDiffViews){
+                    fetchIssuer.setString(1,s);
+                    ResultSet rn = fetchIssuer.executeQuery();
                     System.out.println("pc_cards view exists...");
 
                     //check if any BIN that was provided exists in postcard
@@ -197,27 +197,27 @@ public class AbuTables {
             PreparedStatement check_pc_card_accounts_view = conn.prepareStatement(AbuSqlScripts.CHECK_PC_CARD_ACCOUNTS_VIEW);
 
             //fetching a bin set from pc_card_accounts view based on passed BINs parameter
-            ica_bins_in_diff_views.clear();//clear after been used in pc_cards_view
-            for (String s : ic_bins_to_set) {
+            icaBinsInDiffViews.clear();//clear after been used in pc_cards_view
+            for (String s : icBinsToSet) {
                 check_pc_card_accounts_view.setString(1, s);
                 ResultSet rs = check_pc_card_accounts_view.executeQuery();
                 while (rs.next()) {
-                    ica_bins_in_diff_views.add(rs.getString(1));
+                    icaBinsInDiffViews.add(rs.getString(1));
                 }
             }
 
             //check if all the ICA BINs issuers are present in the pc_cards view
-            if(ica_bins_in_diff_views.equals(ic_bins_to_set))
+            if(icaBinsInDiffViews.equals(icBinsToSet))
             {
                 System.out.println();
                 System.out.println("pc_card_accounts view exists and all the required issuers are part of the view");
             }
             else {
-                missing_issuers_in_diff_views.addAll(ic_bins_to_set);
-                missing_issuers_in_diff_views.removeAll(ica_bins_in_diff_views);
-                for(String s : missing_issuers_in_diff_views){
-                    fetch_issuer.setString(1,s);
-                    ResultSet rn = fetch_issuer.executeQuery();
+                missingIssuersInDiffViews.addAll(icBinsToSet);
+                missingIssuersInDiffViews.removeAll(icaBinsInDiffViews);
+                for(String s : missingIssuersInDiffViews){
+                    fetchIssuer.setString(1,s);
+                    ResultSet rn = fetchIssuer.executeQuery();
                     while (rn.next()){
                         System.out.println("The issuer for BIN " + s + " :issuer_nr " + rn.getString(1) + " is not present in the pc_card_accounts view" );
 
@@ -255,7 +255,7 @@ public class AbuTables {
             if(type_of_environment.equalsIgnoreCase("TEST") || type_of_environment.equalsIgnoreCase("T"))
             {
                 System.out.println("Copying data from pc_cards to pc_cards_abu table...............");
-                for(String s:ic_bins_to_set)
+                for(String s: icBinsToSet)
                 {
                     populate_pc_cards_abu_table_test.setString(1,s);
                     System.out.println(populate_pc_cards_abu_table_test.executeUpdate() + " records copied!");
@@ -265,7 +265,7 @@ public class AbuTables {
             else if(type_of_environment.equalsIgnoreCase("PROD") || type_of_environment.equalsIgnoreCase("P"))
             {
                 System.out.println("Copying data from pc_cards to pc_cards_abu table...............");
-                for(String s:ic_bins_to_set)
+                for(String s: icBinsToSet)
                 {
                     populate_pc_cards_abu_table_prod.setString(1,s);
                     System.out.println(populate_pc_cards_abu_table_prod.executeUpdate() + " records copied!");
@@ -299,7 +299,7 @@ public class AbuTables {
             Set<String> issuers_for_trigger = new HashSet<String>();//Set to hold the issuers that the trigger will be created on
 
             //fetch the issuers that will have triggers created on them
-            for(String s: ic_bins_to_set){
+            for(String s: icBinsToSet){
                 PreparedStatement get_issuer = conn.prepareStatement(AbuSqlScripts.FETCH_ISSUERS);
                 get_issuer.setString(1,s);
                 ResultSet rt = get_issuer.executeQuery();
@@ -347,7 +347,7 @@ public class AbuTables {
             PreparedStatement drop_SP_insert_new_records_in_ABU_table = conn.prepareStatement(AbuSqlScripts.DROP_SP_INSERT_NEW_RECORDS_IN_ABU_TABLE);
             drop_SP_insert_new_records_in_ABU_table.execute();
 
-            String[] abu_bins= ic_bins_to_set.toArray(new String[0]);
+            String[] abu_bins= icBinsToSet.toArray(new String[0]);
             StringBuilder bin_buffer = new StringBuilder();
 
             for(int i = 0; i< abu_bins.length; i++)
@@ -481,16 +481,21 @@ public class AbuTables {
                 PreparedStatement insertNewCardRecordInIssuerCardTable  = conn.prepareStatement("INSERT INTO PC_CARDS_" + entry.getKey() +"_A" + AbuSqlScripts.INSERT_INTO_PC_CARDS_ISSUER_TABLE);
                 insertNewCardRecordInIssuerCardTable.setString(1,replacementPan);
                 insertNewCardRecordInIssuerCardTable.setString(2,panToBeReplaced);
+                System.out.println();
+                System.out.println("Inserting new record in pc_cards_" + entry.getKey() +"_A table.....");
                 insertNewCardRecordInIssuerCardTable.executeUpdate();
 
                 PreparedStatement insertNewCardAccountRecord = conn.prepareStatement("INSERT INTO PC_CARD_ACCOUNTS_" + entry.getKey() +"_A"  + AbuSqlScripts.INSERT_INTO_PC_CARD_ACCOUNTS_ISSUER_TABLE);
                 insertNewCardAccountRecord.setString(1,replacementPan);
                 insertNewCardAccountRecord.setString(2,panToBeReplaced);
+                System.out.println();
+                System.out.println("Inserting new record in pc_card_accounts_" + entry.getKey() +"_A table.....");
                 insertNewCardAccountRecord.executeUpdate();
 
                 PreparedStatement insertNewCardRecordInAbuTable = conn.prepareStatement(AbuSqlScripts.INSERT_INTO_PC_CARDS_ABU_TABLE);
                 insertNewCardRecordInAbuTable.setString(1,replacementPan);
-                System.out.println(AbuSqlScripts.INSERT_INTO_PC_CARDS_ABU_TABLE);
+                System.out.println();
+                System.out.println("Inserting new record in pc_cards_abu table.......");
                 insertNewCardRecordInAbuTable.executeUpdate();
 
             }
