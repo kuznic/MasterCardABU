@@ -434,6 +434,7 @@ public class AbuTables {
 
             }
             conn.commit();
+            conn.close();
 
 
         }
@@ -443,9 +444,63 @@ public class AbuTables {
         }
     }
 
+    /**
+     * This method is used to insert new records
+     * in the pc_cards issuer table and pc_cards_abu table
+     * for reason code R
+     */
 
     public void insertNewRecordForReasonCodeR()
     {
+        try
+        {
+            Scanner scanner = new Scanner(System.in);
+            Map<String, String> issuerPan = new HashMap<String, String>();//hashed map to hold issuer number and new PAN
+            String replacementPan;//holds new pan
+            conn = JdbcManager.getConnection("postcard");
+            PreparedStatement fetchClosedPan = conn.prepareStatement(AbuSqlScripts.FETCH_CLOSED_RECORD);//fetch a closed record
+
+            ResultSet rs = fetchClosedPan.executeQuery();
+            String issuerNumber = rs.getString(1);
+            String panToBeReplaced = rs.getString(2);
+            rs.close();
+
+
+
+            System.out.println("Provide new pan that will serve as replacement for the following closed record with PAN: " + panToBeReplaced);
+            replacementPan = scanner.nextLine();
+
+            issuerPan.put(issuerNumber,replacementPan);
+
+
+
+            for (Map.Entry<String, String> entry : issuerPan.entrySet())
+            {
+                PreparedStatement insertNewCardRecordInIssuerCardTable  = conn.prepareStatement("INSERT INTO PC_CARDS_" + entry.getKey() +"_A" + AbuSqlScripts.INSERT_INTO_PC_CARDS_ISSUER_TABLE);
+                insertNewCardRecordInIssuerCardTable.setString(1,replacementPan);
+                insertNewCardRecordInIssuerCardTable.setString(2,panToBeReplaced);
+                insertNewCardRecordInIssuerCardTable.executeUpdate();
+
+                PreparedStatement insertNewCardAccountRecord = conn.prepareStatement("INSERT INTO PC_CARD_ACCOUNTS_" + entry.getKey() +"_A"  + AbuSqlScripts.INSERT_INTO_PC_CARD_ACCOUNTS_ISSUER_TABLE);
+                insertNewCardAccountRecord.setString(1,replacementPan);
+                insertNewCardAccountRecord.setString(2,panToBeReplaced);
+                insertNewCardAccountRecord.executeUpdate();
+
+                PreparedStatement insertNewCardRecordInAbuTable = conn.prepareStatement(AbuSqlScripts.INSERT_INTO_PC_CARDS_ABU_TABLE);
+                insertNewCardRecordInAbuTable.setString(1,replacementPan);
+                insertNewCardRecordInAbuTable.executeUpdate();
+
+            }
+
+            conn.close();
+
+
+
+        } catch (SQLException throwables)
+        {
+            throwables.printStackTrace();
+        }
+
 
     }
 }

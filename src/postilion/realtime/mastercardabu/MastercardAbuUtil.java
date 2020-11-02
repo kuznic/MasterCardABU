@@ -61,6 +61,11 @@ public class MastercardAbuUtil {
                     abuTables.updateRecordsForReasonCodeC();
                     break;
 
+                case 4:
+                {
+                    abuTables.insertNewRecordForReasonCodeR();
+                }
+
                 default:
                     break;
             }
