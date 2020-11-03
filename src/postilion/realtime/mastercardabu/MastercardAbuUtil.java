@@ -20,6 +20,21 @@ public class MastercardAbuUtil {
         final AbuTables abuTables = new AbuTables();
         final AbuFiles createABUFolder = new AbuFiles();
 
+
+        System.out.println("****************************************************************************");
+        System.out.println("*\t THIS IS A MASTERCARD ABU UTILITY PROGRAM THAT HELPS WITH THE           *");
+        System.out.println("*\t\t\t\tFOLLOWING ANCILLARY PROCESSES                                     *");
+        System.out.println("*\t1.\tCREATE THE MASTERCARD ABU WORKING FOLDER                            *");
+        System.out.println("*\t2.\tCREATE THE PC_CARDS_ABU TABLE                                       *");
+        System.out.println("*\t3.\tCREATE THE REQUIRED STORED PROCEDURES INCLUDING THAT FOR AUTOMATION *");
+        System.out.println("*\t4.\tCHECKS THAT PC_CARDS AND PC_CARD_ACCOUNTS VIEWS EXIST               *");
+        System.out.println("*\t5.\tCREATE TRIGGERS TO UPDATE RECORDS IN THE PC_CARDS_ABU TABLE         *");
+        System.out.println("*\t6.\tCOPY RECORDS FROM PC_CARDS TO THE PC_CARDS_ABU TABLE                *");
+        System.out.println("****************************************************************************");
+        System.out.println();
+        System.out.println();
+
+
         System.out.println("1. Deploy Mastercard ABU:");
         System.out.println("2. Populate pc_cards_abu table with new records for reason code N:");
         System.out.println("3. Modify pc_cards_abu records for reason code C:");
