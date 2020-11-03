@@ -21,24 +21,25 @@ public class MastercardAbuUtil {
         final AbuFiles createABUFolder = new AbuFiles();
 
 
-        System.out.println("****************************************************************************");
-        System.out.println("*\t THIS IS A MASTERCARD ABU UTILITY PROGRAM THAT HELPS WITH THE           *");
-        System.out.println("*\t\t\t\tFOLLOWING ANCILLARY PROCESSES                                     *");
-        System.out.println("*\t1.\tCREATE THE MASTERCARD ABU WORKING FOLDER                            *");
-        System.out.println("*\t2.\tCREATE THE PC_CARDS_ABU TABLE                                       *");
-        System.out.println("*\t3.\tCREATE THE REQUIRED STORED PROCEDURES INCLUDING THAT FOR AUTOMATION *");
-        System.out.println("*\t4.\tCHECKS THAT PC_CARDS AND PC_CARD_ACCOUNTS VIEWS EXIST               *");
-        System.out.println("*\t5.\tCREATE TRIGGERS TO UPDATE RECORDS IN THE PC_CARDS_ABU TABLE         *");
-        System.out.println("*\t6.\tCOPY RECORDS FROM PC_CARDS TO THE PC_CARDS_ABU TABLE                *");
-        System.out.println("****************************************************************************");
+        System.out.println("**************************************************************************");
+        System.out.println("*  THIS IS A MASTERCARD ABU UTILITY PROGRAM THAT HELPS WITH THE          *");
+        System.out.println("*\tFOLLOWING ANCILLARY PROCESSES                                    *");
+        System.out.println("*\t1. CREATE THE MASTERCARD ABU WORKING FOLDER                      *");
+        System.out.println("*\t2. CREATE THE PC_CARDS_ABU TABLE                                 *");
+        System.out.println("*\t3. CREATE THE REQUIRED STORED PROCEDURES                         *");
+        System.out.println("*\t4. CHECKS THAT PC_CARDS AND PC_CARD_ACCOUNTS VIEWS EXIST         *");
+        System.out.println("*\t5. CREATE TRIGGERS TO UPDATE RECORDS IN THE PC_CARDS_ABU TABLE   *");
+        System.out.println("*\t6. COPY RECORDS FROM PC_CARDS TO THE PC_CARDS_ABU TABLE          *");
+        System.out.println("**************************************************************************");
         System.out.println();
         System.out.println();
 
 
-        System.out.println("1. Deploy Mastercard ABU:");
-        System.out.println("2. Populate pc_cards_abu table with new records for reason code N:");
-        System.out.println("3. Modify pc_cards_abu records for reason code C:");
-        System.out.println("4. Add new record for reason code R");
+        System.out.println("1. DEPLOY MASTERCARD ABU:");
+        System.out.println("2. POPULATE PC_CARDS_ABU TABLE WITH NEW RECORDS FOR REASON CODE N");
+        System.out.println("3. MODIFY PC_CARDS_ABU RECORDS FOR REASON CODE C");
+        System.out.println("4. ADD NEW RECORD FOR REASON CODE R");
+        System.out.println("5. EXIT");
         System.out.println();
         System.out.println("Options 2,3 and 4 should be used only on the test environment");
         System.out.println();
@@ -65,7 +66,7 @@ public class MastercardAbuUtil {
 
                 case 2:
                 {
-                    System.out.println("Enter ICA BINs separated by commas");
+                    System.out.println("ENTER ICA BINs SEPARATED BY COMMAS");
                     Scanner sn = new Scanner(System.in);
                     String bin_list = sn.nextLine();
                     abuTables.insertNewRecordsForReasonCodeN(bin_list);
@@ -80,6 +81,7 @@ public class MastercardAbuUtil {
                 case 4:
                 {
                     abuTables.insertNewRecordForReasonCodeR();
+                    break;
                 }
 
                 default:

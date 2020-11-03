@@ -46,9 +46,9 @@ public class AbuTables {
             Statement create_pc_cards_abu_table = conn.createStatement();
             System.out.println("Creating pc_cards_abu table..........");
             create_pc_cards_abu_table.execute(AbuSqlScripts.TBL_PC_CARDS_ABU);
-            System.out.println("Creating index ix_pc_cards_abu on pc_cards_abi table..............");
+            System.out.println("Creating index ix_pc_cards_abu on pc_cards_abu table..............");
             create_pc_cards_abu_table.execute(AbuSqlScripts.IX_PC_CARDS_ABU);
-            System.out.println("Creating index ix_pc_cards_abu_2 on pc_cards_abi table..............");
+            System.out.println("Creating index ix_pc_cards_abu_2 on pc_cards_abu table..............");
             create_pc_cards_abu_table.execute(AbuSqlScripts.IX_PC_CARDS_ABU_2);
             System.out.println("Creating get_all_active_cards stored procedure...........");
             create_pc_cards_abu_table.execute(AbuSqlScripts.SP_GET_ALL_ACTIVE_CARDS);
@@ -56,7 +56,7 @@ public class AbuTables {
             create_pc_cards_abu_table.execute(AbuSqlScripts.SP_GET_CLOSED_CARDS);
             System.out.println("Creating get_all_chained_cards stored procedure........");
             create_pc_cards_abu_table.execute(AbuSqlScripts.SP_GET_ALL_CHAINED_CARDS);
-            System.out.println("Creating update_status_chain_and_hierarchy store procedure........");
+            System.out.println("Creating update_status_chain_and_hierarchy stored procedure........");
             create_pc_cards_abu_table.execute(AbuSqlScripts.SP_UPDATE_STATUS_CHAIN_AND_HIERARCHY);
             System.out.println("Creating update_closed_card_status stored procedure.........");
             create_pc_cards_abu_table.execute(AbuSqlScripts.SP_UPDATE_CLOSED_CARD_STATUS);
