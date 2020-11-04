@@ -174,7 +174,6 @@ public class AbuTables {
             if(e.getErrorCode() == 0 && e.getSQLState().equals("24000"))
             {
                 System.out.println("Error: pc_cards view does not exist!");
-                e.printStackTrace();
             }
         }
         catch (NullPointerException e){
@@ -230,7 +229,7 @@ public class AbuTables {
         catch(SQLException e){
             if(e.getErrorCode() == 0 && e.getSQLState().equals("24000"))
             {
-                System.out.println("Error: pc_card_accounts view does not exist!");
+                System.out.println("SQL Error: pc_card_accounts view does not exist!");
             }
 
 
