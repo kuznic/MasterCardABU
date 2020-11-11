@@ -150,6 +150,7 @@ public class AbuTables {
                 missingIssuersInDiffViews.addAll(icBinsToSet);
                 missingIssuersInDiffViews.removeAll(icaBinsInDiffViews);
                 fetchIssuer = conn.prepareStatement(AbuSqlScripts.FETCH_ISSUERS);
+
                 for(String s : missingIssuersInDiffViews){
                     fetchIssuer.setString(1,s);
                     ResultSet rn = fetchIssuer.executeQuery();
@@ -471,7 +472,7 @@ public class AbuTables {
                 System.out.println("Provide new pan that will serve as replacement for the following closed record with PAN: " + panToBeReplaced);
                 replacementPan = scanner.nextLine();
                 issuerPan.put(issuerNumber,replacementPan);
-                System.out.println("got here");
+                //System.out.println("got here");
             }
 
             rs.close();

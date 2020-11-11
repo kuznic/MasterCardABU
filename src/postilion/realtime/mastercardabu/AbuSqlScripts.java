@@ -344,10 +344,10 @@ public class AbuSqlScripts {
      */
     public static final String CHECK_PC_CARDS_VIEW = "IF EXISTS (select * from sys.objects where object_id = OBJECT_ID(N'[dbo].[pc_cards]')  AND type in (N'V'))\n" +
             "BEGIN\n" +
-            "select distinct cp.card_prefix from pc_cards as pc\n" +
+            "select distinct substring (cp.card_prefix,1,6) from pc_cards as pc\n" +
             "inner join pc_card_programs as cp\n" +
             "on pc.card_program = cp.card_program\n" +
-            "where card_prefix in (?)\n" +
+            "where substring(card_prefix,1,6) in (?)\n" +
             "END;";
 
     /**
@@ -358,17 +358,17 @@ public class AbuSqlScripts {
 
     public static final String CHECK_PC_CARD_ACCOUNTS_VIEW = "IF EXISTS (select * from sys.objects where object_id = OBJECT_ID(N'[dbo].[pc_card_accounts]')  AND type in (N'V'))\n" +
             "BEGIN\n" +
-            "select distinct cp.card_prefix from pc_card_accounts as ca\n" +
+            "select distinct substring(cp.card_prefix,1,6) from pc_card_accounts as ca\n" +
             "inner join pc_card_programs as cp\n" +
             "on cp.issuer_nr = ca.issuer_nr\n" +
-            "where cp.card_prefix in (?)\n" +
+            "where substring(cp.card_prefix,1,6) in (?)\n" +
             "END;";
 
     /**
      * Script to fetch issuers
      */
 
-    public static final String FETCH_ISSUERS = "select issuer_nr from pc_card_programs where card_prefix in (?)";
+    public static final String FETCH_ISSUERS = "select issuer_nr from pc_card_programs where substring(card_prefix,1,6) in (?)";
 
     /**
      * Script to copy data from pc_cards to pc_cards_abu table in

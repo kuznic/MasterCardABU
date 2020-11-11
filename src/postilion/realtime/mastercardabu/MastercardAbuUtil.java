@@ -12,7 +12,8 @@ import java.util.Scanner;
  * @since 23-10-2020
  */
 
-public class MastercardAbuUtil {
+public class MastercardAbuUtil
+{
 
 
     public static void main(String[] args) {
