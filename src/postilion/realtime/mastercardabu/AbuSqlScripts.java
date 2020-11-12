@@ -377,7 +377,11 @@ public class AbuSqlScripts {
      * be copied over for the purpose of testing
      */
 
-    public static final String POPULATE_PC_CARDS_ABU_TABLE_TEST = "INSERT INTO [dbo].[pc_cards_abu]\n" +
+    public static final String POPULATE_PC_CARDS_ABU_TABLE_TEST = "with date_cte(date) as \n" +
+            "(" +
+            "select convert(char(4),getdate(),12)" +
+            ")\n" +
+            "INSERT INTO [dbo].[pc_cards_abu]\n" +
             "           ([issuer_nr]\n" +
             "           ,[pan]\n" +
             "           ,[seq_nr]\n" +
@@ -421,7 +425,7 @@ public class AbuSqlScripts {
             "           ,[account_hierarchy]\n" +
             "           ,[closed])\n" +
 
-            "SELECT top 2 pc.[issuer_nr]\n" +
+            "SELECT top 2 distinct pc.[issuer_nr]\n" +
             "      ,pc.[pan]\n" +
             "      ,pc.[seq_nr]\n" +
             "      ,pc.[card_program]\n" +
@@ -466,13 +470,19 @@ public class AbuSqlScripts {
             "  FROM [dbo].[pc_cards] (nolock) as pc\n" +
             "inner join pc_card_accounts as ca\n" +
             "on pc.pan = ca.pan\n" +
-            "where pc.date_deleted is null and pc.card_status = 1 and pc.hold_rsp_code is null and substring (pc.pan,1,6) in (?)\n";
+            "where pc.date_deleted is null and expiry_date > (select date from date_cte) and pc.card_status = 1 and pc.hold_rsp_code is null and substring (pc.pan,1,6) in (?)\n";
 
     /**
      * Script to copy data from pc_cards to pc_cards_abu table in
      * production  environment
      */
-    public static final String POPULATE_PC_CARDS_ABU_TABLE_PROD = "INSERT INTO [dbo].[pc_cards_abu]\n" +
+    public static final String POPULATE_PC_CARDS_ABU_TABLE_PROD = "with date_cte(date) as \n" +
+            "(" +
+            "select convert(char(4),getdate(),12)" +
+            ")\n" +
+
+
+            "INSERT INTO [dbo].[pc_cards_abu]\n" +
             "           ([issuer_nr]\n" +
             "           ,[pan]\n" +
             "           ,[seq_nr]\n" +
@@ -516,7 +526,7 @@ public class AbuSqlScripts {
             "           ,[account_hierarchy]\n" +
             "           ,[closed])\n" +
 
-            "SELECT pc.[issuer_nr]\n" +
+            "SELECT distinct pc.[issuer_nr]\n" +
             "      ,pc.[pan]\n" +
             "      ,pc.[seq_nr]\n" +
             "      ,pc.[card_program]\n" +
@@ -561,7 +571,7 @@ public class AbuSqlScripts {
             "  FROM [dbo].[pc_cards] (nolock) as pc\n" +
             "inner join pc_card_accounts as ca\n" +
             "on pc.pan = ca.pan\n" +
-            "where pc.date_deleted is null and pc.card_status = 1 and pc.hold_rsp_code is null and substring (pc.pan,1,6) in (?)\n";
+            "where pc.date_deleted is null and expiry_date > (select date from date_cte)  and pc.card_status = 1 and pc.hold_rsp_code is null and substring (pc.pan,1,6) in (?)\n";
 
     /**
      * Script to create first index on
