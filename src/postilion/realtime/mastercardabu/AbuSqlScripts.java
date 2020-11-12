@@ -425,7 +425,7 @@ public class AbuSqlScripts {
             "           ,[account_hierarchy]\n" +
             "           ,[closed])\n" +
 
-            "SELECT top 2 distinct pc.[issuer_nr]\n" +
+            "SELECT top 2  pc.[issuer_nr]\n" +
             "      ,pc.[pan]\n" +
             "      ,pc.[seq_nr]\n" +
             "      ,pc.[card_program]\n" +
