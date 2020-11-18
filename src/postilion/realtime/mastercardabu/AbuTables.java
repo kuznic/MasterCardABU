@@ -35,7 +35,7 @@ public class AbuTables {
      * and stored procedures
      */
 
-    public void createAbuTable()
+     void createAbuTable()
     {
         try
 
@@ -82,7 +82,7 @@ public class AbuTables {
      * This method checks for the pc_cards view
      * and indicates which issuers are missing
      */
-    public void checkPcCardsView()
+    void checkPcCardsView()
     {
         Exception invalidInput = new Exception("Invalid Input found");
         try
@@ -189,7 +189,7 @@ public class AbuTables {
      * This method checks for the pc_card_accounts view
      * and indicates which issuers are missing
      */
-    public void checkPcCardAccountsView()
+     void checkPcCardAccountsView()
     {
         try
         {
@@ -242,7 +242,7 @@ public class AbuTables {
      * This method copies data from pc_cards
      * to the pc_cards_abu table
      */
-    public void copyRecordsToAbuTable()
+     void copyRecordsToAbuTable()
     {
         try
         {
@@ -292,7 +292,7 @@ public class AbuTables {
      * for the ICA BINs
      */
 
-    public void createTriggersOnIcaIssuerTables()
+     void createTriggersOnIcaIssuerTables()
     {
         try
         {
@@ -339,7 +339,7 @@ public class AbuTables {
      * will be used auto-populate the pc_cards_abu table after initial
      * records have been copied
      */
-    public void createProcedureToAutoPopulateAbuTable()
+     void createProcedureToAutoPopulateAbuTable()
     {
         try
         {
@@ -382,7 +382,7 @@ public class AbuTables {
      *
      */
 
-    public void insertNewRecordsForReasonCodeN(String ICA_bins)
+     void insertNewRecordsForReasonCodeN(String ICA_bins)
     {
         try
         {
@@ -411,7 +411,7 @@ public class AbuTables {
      * of the records in their corresponding issuer tables
      * in order to make records available for the generation of the Closed reason code
      */
-    public void updateRecordsForReasonCodeC()
+    void updateRecordsForReasonCodeC()
     {
         Map<String,String> issuerPan = new HashMap<String, String>();//This HashMap will hold issuer_nr and pan present in
         try
@@ -450,7 +450,7 @@ public class AbuTables {
      * for reason code R
      */
 
-    public void insertNewRecordForReasonCodeR()
+    void insertNewRecordForReasonCodeR()
     {
         try
         {
