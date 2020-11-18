@@ -14,7 +14,7 @@ import java.util.*;
  * @since 23-10-2020
  */
 
-public class AbuTables {
+class AbuTables {
     private Connection conn;
     private final Set<String> icaBinsInDiffViews = new HashSet<String>();//Set, to hold bins present in pc_cards_view
     private final Set<String> icBinsToSet = new HashSet<String>();//set to hold bins passed as parameters

@@ -1,11 +1,11 @@
 package postilion.realtime.mastercardabu;
 
-public class AbuSqlScripts {
+class AbuSqlScripts {
     /**
      * Script to create pc_cards_abu table
      * and other required scripts
      */
-    public static final String TBL_PC_CARDS_ABU = "-- CREATE TABLE pc_cards_abu\n" +
+    static final String TBL_PC_CARDS_ABU = "-- CREATE TABLE pc_cards_abu\n" +
             "IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[pc_cards_abu]') AND type in (N'U'))\n" +
             "BEGIN\n" +
             "DROP TABLE [dbo].[pc_cards_abu]\n" +
@@ -112,7 +112,7 @@ public class AbuSqlScripts {
      * stored procedure
      */
 
-    public static final String SP_GET_ALL_ACTIVE_CARDS = "CREATE PROCEDURE get_all_active_cards   @bins VARCHAR(200), @page_num INT,\n" +
+    static final String SP_GET_ALL_ACTIVE_CARDS = "CREATE PROCEDURE get_all_active_cards   @bins VARCHAR(200), @page_num INT,\n" +
             "  @page_size INT AS\n" +
             "SELECT\n" +
             "  COUNT(*) AS count\n" +
@@ -163,7 +163,7 @@ public class AbuSqlScripts {
      * stored procedure
      */
 
-    public static final String SP_GET_CLOSED_CARDS = "CREATE PROCEDURE get_closed_cards   @bins VARCHAR(200), @page_num INT,\n" +
+    static final String SP_GET_CLOSED_CARDS = "CREATE PROCEDURE get_closed_cards   @bins VARCHAR(200), @page_num INT,\n" +
             "  @page_size INT AS\n" +
             "SELECT\n" +
             "  COUNT(*) AS count\n" +
@@ -215,7 +215,7 @@ public class AbuSqlScripts {
      * get_all_chained_cards stored procedure
      */
 
-    public static final String SP_GET_ALL_CHAINED_CARDS = "CREATE PROCEDURE get_all_chained_cards @bins VARCHAR(200), @page_num INT,\n" +
+    static final String SP_GET_ALL_CHAINED_CARDS = "CREATE PROCEDURE get_all_chained_cards @bins VARCHAR(200), @page_num INT,\n" +
             "@page_size INT AS\n" +
             "SELECT\n" +
             "COUNT(*) AS count\n" +
@@ -315,7 +315,7 @@ public class AbuSqlScripts {
      * update_status_chain_and_hierarchy stored procedure
      */
 
-    public static final String SP_UPDATE_STATUS_CHAIN_AND_HIERARCHY = "CREATE PROCEDURE update_status_chain_and_hierarchy @updates TVPCardUpdatesTableType READONLY AS\n " +
+    static final String SP_UPDATE_STATUS_CHAIN_AND_HIERARCHY = "CREATE PROCEDURE update_status_chain_and_hierarchy @updates TVPCardUpdatesTableType READONLY AS\n " +
             "BEGIN\n" +
             "UPDATE pc_cards_abu\n" +
             "SET    account_chain = u.account_chain,\n" +
@@ -329,7 +329,7 @@ public class AbuSqlScripts {
      * update_closed_card_status stored procedure
      */
 
-    public static final String SP_UPDATE_CLOSED_CARD_STATUS = "CREATE PROCEDURE update_closed_card_status @updates TVPClosedCardUpdatesTableType READONLY AS\n" +
+    static final String SP_UPDATE_CLOSED_CARD_STATUS = "CREATE PROCEDURE update_closed_card_status @updates TVPClosedCardUpdatesTableType READONLY AS\n" +
             "BEGIN\n" +
             "UPDATE pc_cards_abu\n" +
             "SET    closed = u.closed\n" +
@@ -342,7 +342,7 @@ public class AbuSqlScripts {
      * and if the issuers for the ICA BINs are present in
      * the view
      */
-    public static final String CHECK_PC_CARDS_VIEW = "IF EXISTS (select * from sys.objects where object_id = OBJECT_ID(N'[dbo].[pc_cards]')  AND type in (N'V'))\n" +
+    static final String CHECK_PC_CARDS_VIEW = "IF EXISTS (select * from sys.objects where object_id = OBJECT_ID(N'[dbo].[pc_cards]')  AND type in (N'V'))\n" +
             "BEGIN\n" +
             "select distinct substring (cp.card_prefix,1,6) from pc_cards as pc\n" +
             "inner join pc_card_programs as cp\n" +
@@ -356,7 +356,7 @@ public class AbuSqlScripts {
      * the view
      */
 
-    public static final String CHECK_PC_CARD_ACCOUNTS_VIEW = "IF EXISTS (select * from sys.objects where object_id = OBJECT_ID(N'[dbo].[pc_card_accounts]')  AND type in (N'V'))\n" +
+    static final String CHECK_PC_CARD_ACCOUNTS_VIEW = "IF EXISTS (select * from sys.objects where object_id = OBJECT_ID(N'[dbo].[pc_card_accounts]')  AND type in (N'V'))\n" +
             "BEGIN\n" +
             "select distinct substring(cp.card_prefix,1,6) from pc_card_accounts as ca\n" +
             "inner join pc_card_programs as cp\n" +
@@ -368,7 +368,7 @@ public class AbuSqlScripts {
      * Script to fetch issuers
      */
 
-    public static final String FETCH_ISSUERS = "select issuer_nr from pc_card_programs where substring(card_prefix,1,6) in (?)";
+    static final String FETCH_ISSUERS = "select issuer_nr from pc_card_programs where substring(card_prefix,1,6) in (?)";
 
     /**
      * Script to copy data from pc_cards to pc_cards_abu table in
@@ -377,7 +377,7 @@ public class AbuSqlScripts {
      * be copied over for the purpose of testing
      */
 
-    public static final String POPULATE_PC_CARDS_ABU_TABLE_TEST = "with date_cte(date) as \n" +
+    static final String POPULATE_PC_CARDS_ABU_TABLE_TEST = "with date_cte(date) as \n" +
             "(" +
             "select convert(char(4),getdate(),12)" +
             ")\n" +
@@ -476,7 +476,7 @@ public class AbuSqlScripts {
      * Script to copy data from pc_cards to pc_cards_abu table in
      * production  environment
      */
-    public static final String POPULATE_PC_CARDS_ABU_TABLE_PROD = "with date_cte(date) as \n" +
+    static final String POPULATE_PC_CARDS_ABU_TABLE_PROD = "with date_cte(date) as \n" +
             "(" +
             "select convert(char(4),getdate(),12)" +
             ")\n" +
@@ -578,7 +578,7 @@ public class AbuSqlScripts {
      * pc_cards_abu table
      */
 
-    public static final String IX_PC_CARDS_ABU = "CREATE NONCLUSTERED INDEX [ix_pc_cards_abu]\n" +
+    static final String IX_PC_CARDS_ABU = "CREATE NONCLUSTERED INDEX [ix_pc_cards_abu]\n" +
             "ON [dbo].[pc_cards_abu] ([pan],[seq_nr])\n" +
             "INCLUDE ([id])";
 
@@ -588,12 +588,12 @@ public class AbuSqlScripts {
      */
 
 
-    public static final String IX_PC_CARDS_ABU_2 = "CREATE NONCLUSTERED INDEX [ix_pc_cards_abu_2]\n" +
+    static final String IX_PC_CARDS_ABU_2 = "CREATE NONCLUSTERED INDEX [ix_pc_cards_abu_2]\n" +
             "ON [dbo].[pc_cards_abu] ([card_status],[hold_rsp_code],[account_hierarchy],[expiry_date])\n";
 
-    public static final String TR_PC_CARDS_PART_1 = "CREATE TRIGGER [dbo].[tr_at_update_mastercard_abu_";
-    public static final String TR_PC_CARDS_PART_2 = "ON [dbo].[pc_cards_";
-    public static final String TR_PC_CARDS_PART_3 = " after update AS\n" +
+    static final String TR_PC_CARDS_PART_1 = "CREATE TRIGGER [dbo].[tr_at_update_mastercard_abu_";
+    static final String TR_PC_CARDS_PART_2 = "ON [dbo].[pc_cards_";
+    static final String TR_PC_CARDS_PART_3 = " after update AS\n" +
             "BEGIN \n" +
             "set nocount on;\n" +
             "UPDATE pc_cards_abu SET card_status = i.card_status\n" +
@@ -608,16 +608,18 @@ public class AbuSqlScripts {
     /**
      * Used to drop the abu triggers from the issuer table
      */
-    public static final String DROP_TRIGGERS_PART_1 = "IF EXISTS (select * from sys.objects where object_id = OBJECT_ID(N'[dbo].[tr_at_update_mastercard_abu_";
-    public static final String DROP_TRIGGERS_PART_2 ="')  AND type in (N'TR'))\n" +
+    static final String DROP_TRIGGERS_PART_1 = "IF EXISTS (select * from sys.objects where object_id = OBJECT_ID(N'[dbo].[tr_at_update_mastercard_abu_";
+
+    static final String DROP_TRIGGERS_PART_2 ="')  AND type in (N'TR'))\n" +
             "BEGIN\n" +
             "DROP TRIGGER ";
-    public static final String DROP_TRIGGERS_PART_3 = "\nEND\n" +
+
+    static final String DROP_TRIGGERS_PART_3 = "\nEND\n" +
             "ELSE\n" +
             "RETURN";
 
 
-    public static final String SP_INSERT_NEW_RECORDS_IN_ABU_TABLE_PART_1 = "create procedure abu_insert_new_records\n" +
+    static final String SP_INSERT_NEW_RECORDS_IN_ABU_TABLE_PART_1 = "create procedure abu_insert_new_records\n" +
             "as \n" +
             "declare @abu_last_updated_date  varchar(15)\n" +
             "set @abu_last_updated_date =(select top 1 CONVERT(VARcHAR(10), last_updated_date, 111) from pc_cards_abu nolock\n" +
@@ -712,9 +714,9 @@ public class AbuSqlScripts {
             "  FROM [dbo].[pc_cards]\n" +
             "where date_deleted is null  and substring(pan,1,6) in (";
 
-    public static final String SP_INSERT_NEW_RECORDS_IN_ABU_TABLE_PART_2 = ") and last_updated_date > @abu_last_updated_date";
+    static final String SP_INSERT_NEW_RECORDS_IN_ABU_TABLE_PART_2 = ") and last_updated_date > @abu_last_updated_date";
 
-    public static final String DROP_SP_INSERT_NEW_RECORDS_IN_ABU_TABLE =  "IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id (N'[dbo].[abu_insert_new_records]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)\n" +
+    static final String DROP_SP_INSERT_NEW_RECORDS_IN_ABU_TABLE =  "IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id (N'[dbo].[abu_insert_new_records]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)\n" +
             "BEGIN\n" +
             "DROP PROCEDURE [dbo].[abu_insert_new_records]\n" +
             "END;\n" ;
@@ -724,7 +726,7 @@ public class AbuSqlScripts {
      * with new records for reason code N
      */
 
-    public static final String POPULATE_PC_CARDS_ABU_TABLE_TEST_FOR_CODE_N = "with pan_cte as \n" +
+    static final String POPULATE_PC_CARDS_ABU_TABLE_TEST_FOR_CODE_N = "with pan_cte as \n" +
             "(" +
             "select * from pc_cards (nolock) where \n" +
             "pan not in (select pan from pc_cards_abu)\n" +
@@ -778,25 +780,25 @@ public class AbuSqlScripts {
     /**
      * Fetch top two records from pc_cards_abu table
      */
-    public static final String FETCH_RECORDS_FROM_PC_CARDS_ABU = "select top 2 [issuer_nr],[pan] from [dbo].[pc_cards_abu] (nolock) where account_chain is not null";
+    static final String FETCH_RECORDS_FROM_PC_CARDS_ABU = "select top 2 [issuer_nr],[pan] from [dbo].[pc_cards_abu] (nolock) where account_chain is not null";
 
     /**
      * Fetch closed record from pc_cards_abu table
      */
-    public static final String FETCH_CLOSED_RECORD = "SELECT TOP 1 ISSUER_NR,PAN FROM PC_CARDS_ABU WHERE HOLD_RSP_CODE = 41 AND CLOSED = 1";
+    static final String FETCH_CLOSED_RECORD = "SELECT TOP 1 ISSUER_NR,PAN FROM PC_CARDS_ABU WHERE HOLD_RSP_CODE = 41 AND CLOSED = 1";
 
-    public static final String INSERT_INTO_PC_CARDS_ISSUER_TABLE = "(issuer_nr,pan,seq_nr,card_program,default_account_type,card_status,expiry_date,hold_rsp_code," +
+    static final String INSERT_INTO_PC_CARDS_ISSUER_TABLE = "(issuer_nr,pan,seq_nr,card_program,default_account_type,card_status,expiry_date,hold_rsp_code," +
             "pvki_or_pin_length,pvv_or_pin_offset,mailer_destination,discretionary_data," +
             "date_issued,date_activated,branch_code,last_updated_date,last_updated_user,customer_id,company_card,pvki2_or_pin2_length)\n" +
             "select issuer_nr,?,'005',card_program,default_account_type,card_status,'2312',null,pvki_or_pin_length,pvv_or_pin_offset,mailer_destination,discretionary_data,getdate(),GETDATE(),branch_code,GETDATE(),last_updated_user,customer_id,company_card,pvki2_or_pin2_length\n" +
             "from pc_cards_abu where pan = ?";
 
-    public static final String INSERT_INTO_PC_CARD_ACCOUNTS_ISSUER_TABLE = "(issuer_nr,pan,seq_nr,account_id,account_type_nominated,account_type_qualifier,last_updated_date," +
+    static final String INSERT_INTO_PC_CARD_ACCOUNTS_ISSUER_TABLE = "(issuer_nr,pan,seq_nr,account_id,account_type_nominated,account_type_qualifier,last_updated_date," +
             "last_updated_user,account_type,date_deleted)\n" +
             "select issuer_nr,?,'005',account_id,account_type_nominated,account_type_qualifier,getdate(),last_updated_user,account_type,date_deleted\n" +
             "from pc_card_accounts where pan = ?";
 
-    public static final String INSERT_INTO_PC_CARDS_ABU_TABLE = "insert into pc_cards_abu (issuer_nr,pan,seq_nr,card_program,default_account_type,card_status," +
+    static final String INSERT_INTO_PC_CARDS_ABU_TABLE = "insert into pc_cards_abu (issuer_nr,pan,seq_nr,card_program,default_account_type,card_status," +
             "expiry_date,hold_rsp_code,pvki_or_pin_length,pvv_or_pin_offset,mailer_destination,discretionary_data,date_issued,date_activated,branch_code," +
             "last_updated_date,last_updated_user,customer_id,company_card,pvki2_or_pin2_length,upload_status,account_chain,account_hierarchy,closed)\n" +
             "select issuer_nr,pan,'005',card_program,default_account_type,card_status," +

@@ -15,7 +15,7 @@ import java.util.Scanner;
  * @version 1.0
  */
 
-public class AbuFiles
+class AbuFiles
 {
     UnZipZippedFolders unZipper = new UnZipZippedFolders();
 
