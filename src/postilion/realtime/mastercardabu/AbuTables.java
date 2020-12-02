@@ -23,9 +23,12 @@ class AbuTables {
     private final Scanner scanner = new Scanner(System.in);
 
     {
-        try {
+        try
+        {
             conn = JdbcManager.getConnection("postcard");
-        } catch (SQLException e) {
+        }
+        catch (SQLException e)
+        {
             System.out.println( e.getMessage());
         }
     }
