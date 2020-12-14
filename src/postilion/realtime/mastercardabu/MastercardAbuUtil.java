@@ -40,7 +40,8 @@ public class MastercardAbuUtil
         System.out.println("2. POPULATE PC_CARDS_ABU TABLE WITH NEW RECORDS FOR REASON CODE N");
         System.out.println("3. MODIFY PC_CARDS_ABU RECORDS FOR REASON CODE C");
         System.out.println("4. ADD NEW RECORD FOR REASON CODE R");
-        System.out.println("5. EXIT");
+        System.out.println("5. COPY RECORDS TO PC_CARDS_ABU TABLE");
+        System.out.println("6. EXIT");
         System.out.println();
         System.out.println("Options 2,3 and 4 should be used only on the test environment");
         System.out.println();
@@ -71,6 +72,7 @@ public class MastercardAbuUtil
                     Scanner sn = new Scanner(System.in);
                     String bin_list = sn.nextLine();
                     abuTables.insertNewRecordsForReasonCodeN(bin_list);
+                    sn.close();
                     break;
                 }
 
@@ -82,6 +84,15 @@ public class MastercardAbuUtil
                 case 4:
                 {
                     abuTables.insertNewRecordForReasonCodeR();
+                    break;
+                }
+                case 5:
+                {
+                    System.out.println();
+                    System.out.println("ENTER ICA BINs SEPARATED BY COMMAS");
+                    String bins = scanner.nextLine();
+                    String[] binsToArray = bins.split(",");
+                    abuTables.copyRecordsToAbuTable(binsToArray);
                     break;
                 }
 

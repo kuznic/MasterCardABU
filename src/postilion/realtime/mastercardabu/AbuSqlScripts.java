@@ -556,7 +556,7 @@ class AbuSqlScripts {
             "      ,[company_card]\n" +
             "      ,pc.[date_deleted]\n" +
             "      ,[pvki2_or_pin2_length]\n" +
-            "      ,[extended_fields]\n" +
+            "      ,pc.[extended_fields]\n" +
             "      ,[expiry_day]\n" +
             "      ,[from_date]\n" +
             "      ,[from_day]\n" +
@@ -780,7 +780,7 @@ class AbuSqlScripts {
     /**
      * Fetch top two records from pc_cards_abu table
      */
-    static final String FETCH_RECORDS_FROM_PC_CARDS_ABU = "select top 2 [issuer_nr],[pan] from [dbo].[pc_cards_abu] (nolock) where account_chain is not null";
+    static final String FETCH_RECORDS_FROM_PC_CARDS_ABU = "select top 2 [issuer_nr],[pan] from [dbo].[pc_cards_abu] (nolock)";
 
     /**
      * Fetch closed record from pc_cards_abu table

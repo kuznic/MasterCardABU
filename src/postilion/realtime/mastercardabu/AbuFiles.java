@@ -21,8 +21,20 @@ class AbuFiles
 
     public void createAbuFolderAndCopyConfigFiles() throws IOException
     {
-        //File abuFolder = new File("mastercardabu");// create a new File object for the mastercard abu folder
-        File abuFolder = new File("C:\\mastercardabu");// create a new File object for the mastercard abu folder
+        Scanner location = new Scanner(System.in);
+        File abuFolder;
+        System.out.println("Enter preferred path for ABU working directory or enter default for default location:");
+        String abuWorkingPath = location.nextLine();//working location for the Mastercard ABU solutions
+
+        if(abuWorkingPath.equalsIgnoreCase("default"))
+        {
+            abuFolder = new File("C:\\mastercardabu");// create a new File object for the mastercard abu folder
+        }
+        else
+        {
+            abuFolder = new File(abuWorkingPath);
+        }
+
 
         //check if mastercardabu folder exists and deletes the folder
 
@@ -35,7 +47,7 @@ class AbuFiles
         }
         else
         {
-            System.out.println("mastercardabu folder already exists in c drive, moving on............");
+            System.out.println("mastercardabu folder already exists in, moving on............");
         }
 
         String abuFolderPath = abuFolder.getAbsolutePath();

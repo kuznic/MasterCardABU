@@ -515,5 +515,32 @@ class AbuTables {
 
 
     }
+
+    /*
+    This method was added for the shared service module
+    which hosts multiple FIs, this allows to add new records for other FIs
+    without recreating the pc_cards_abu table
+
+     */
+    void copyRecordsToAbuTable(String[] icaBins)
+    {
+        HashSet<String> icaBinArrayToSet = new HashSet<String>();
+        Collections.addAll(icaBinArrayToSet,icaBins);
+
+        try
+        {
+            PreparedStatement populatePcCardsAbuTableProd = conn.prepareStatement(AbuSqlScripts.POPULATE_PC_CARDS_ABU_TABLE_PROD);
+            System.out.println("Copying data from pc_cards to pc_cards_abu table...............");
+            for(String s: icaBinArrayToSet)
+            {
+                populatePcCardsAbuTableProd.setString(1,s);
+                System.out.println(populatePcCardsAbuTableProd.executeUpdate() + " records copied!");
+            }
+            conn.close();
+        } catch (SQLException throwables) {
+            System.out.println(throwables.getMessage());
+        }
+
+    }
 }
 

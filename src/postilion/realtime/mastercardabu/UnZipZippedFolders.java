@@ -23,9 +23,9 @@ public class UnZipZippedFolders
     /**
      * Extracts a zip file specified by the zipFilePath to a directory specified by
      * destDirectory (will be created if does not exists)
-     * @param zipFilePath
-     * @param destDirectory
-     * @throws IOException
+     * @param zipFilePath file path where the zip file exists
+     * @param destDirectory the destination directory
+     * @throws IOException throws IOException if unable to access the path
      */
     public void unzip(String zipFilePath, String destDirectory) throws IOException {
         File destDir = new File(destDirectory);
@@ -59,7 +59,7 @@ public class UnZipZippedFolders
     private void extractFile(ZipInputStream zipIn, String filePath) throws IOException {
         BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(filePath));
         byte[] bytesIn = new byte[BUFFER_SIZE];
-        int read = 0;
+        int read;
         while ((read = zipIn.read(bytesIn)) != -1) {
             bos.write(bytesIn, 0, read);
         }
@@ -71,11 +71,11 @@ public class UnZipZippedFolders
      * from www.codejava.net
      * This will delete the zipped file
      */
-    public void deleteFile(String folderpath,ArrayList<String> zippedFilesList){
+    public void deleteFile(String folderPath,ArrayList<String> zippedFilesList){
         for (String zippedFile: zippedFilesList)
         {
             System.out.println();
-            String zipFilePath = folderpath + "\\" +zippedFile;
+            String zipFilePath = folderPath + "\\" +zippedFile;
             File zipFile = new File(zipFilePath);
             final boolean deleted = zipFile.delete();
             if(deleted)

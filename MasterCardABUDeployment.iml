@@ -7,5 +7,21 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../jython2.7.2" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="file://$MODULE_DIR$/../jython2.7.2/Doc/javadoc" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/../jython2.7.2/Demo/embed" />
+          <root url="file://$MODULE_DIR$/../jython2.7.2/Demo/jreload/src" />
+          <root url="file://$MODULE_DIR$/../jython2.7.2/tests/java" />
+        </SOURCES>
+        <jarDirectory url="file://$MODULE_DIR$/../jython2.7.2" recursive="false" />
+      </library>
+    </orderEntry>
   </component>
 </module>
