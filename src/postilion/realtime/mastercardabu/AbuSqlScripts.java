@@ -619,8 +619,8 @@ class AbuSqlScripts {
             "RETURN";
 
 
-    static final String SP_INSERT_NEW_RECORDS_IN_ABU_TABLE_PART_1 = "create procedure abu_insert_new_records\n" +
-            "as \n" +
+    static final String SP_INSERT_NEW_RECORDS_IN_ABU_TABLE_PART_1 = "create procedure [abu_insert_new_records" ;
+    static final String SP_INSERT_NEW_RECORD_IN_ABU_TABLE_PART_2 = "\n as \n" +
             "declare @abu_last_updated_date  varchar(15)\n" +
             "set @abu_last_updated_date =(select top 1 CONVERT(VARcHAR(10), last_updated_date, 111) from pc_cards_abu nolock\n" +
             "order by last_updated_date  desc\n" +
@@ -714,12 +714,13 @@ class AbuSqlScripts {
             "  FROM [dbo].[pc_cards]\n" +
             "where date_deleted is null  and substring(pan,1,6) in (";
 
-    static final String SP_INSERT_NEW_RECORDS_IN_ABU_TABLE_PART_2 = ") and last_updated_date > @abu_last_updated_date";
+    static final String SP_INSERT_NEW_RECORDS_IN_ABU_TABLE_PART_3 = ") and last_updated_date > @abu_last_updated_date";
 
-    static final String DROP_SP_INSERT_NEW_RECORDS_IN_ABU_TABLE =  "IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id (N'[dbo].[abu_insert_new_records]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)\n" +
-            "BEGIN\n" +
-            "DROP PROCEDURE [dbo].[abu_insert_new_records]\n" +
-            "END;\n" ;
+    static final String DROP_SP_INSERT_NEW_RECORDS_IN_ABU_TABLE =  "IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id (N'[dbo].[abu_insert_new_records";
+    static final String DROP_SP_INSERT_INSERT_NEW_RECORDS_IN_ABU_TABLE_PART_2 =  ") AND OBJECTPROPERTY(id, N'IsProcedure') = 1)\n" + "BEGIN\n";
+    static final String DROP_SP_INSERT_INSERT_NEW_RECORDS_IN_ABU_TABLE_PART_3 = "DROP PROCEDURE [dbo].[abu_insert_new_records";
+    static final String DROP_SP_INSERT_INSERT_NEW_RECORDS_IN_ABU_TABLE_PART_4 = "]\nEND;\n" ;
+
 
     /**
      * This script is used to populate pc_cards_abu table

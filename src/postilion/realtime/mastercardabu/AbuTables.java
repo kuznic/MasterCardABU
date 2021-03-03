@@ -347,7 +347,12 @@ class AbuTables {
         try
         {
             System.out.println();
-            PreparedStatement dropSPInsertNewRecordsInABUTable = conn.prepareStatement(AbuSqlScripts.DROP_SP_INSERT_NEW_RECORDS_IN_ABU_TABLE);
+            System.out.println("WHICH BANK ARE YOU DEPLOYING FOR:");
+            String nameOfBank = scanner.nextLine();
+            nameOfBank = nameOfBank.toLowerCase().trim();
+            PreparedStatement dropSPInsertNewRecordsInABUTable = conn.prepareStatement(AbuSqlScripts.DROP_SP_INSERT_NEW_RECORDS_IN_ABU_TABLE +
+                    "_" + nameOfBank +"'"+ AbuSqlScripts.DROP_SP_INSERT_INSERT_NEW_RECORDS_IN_ABU_TABLE_PART_2 + AbuSqlScripts.DROP_SP_INSERT_INSERT_NEW_RECORDS_IN_ABU_TABLE_PART_3
+                            +"_" + nameOfBank + AbuSqlScripts.DROP_SP_INSERT_INSERT_NEW_RECORDS_IN_ABU_TABLE_PART_4);
             dropSPInsertNewRecordsInABUTable.execute();
 
             String[] abu_bins= icBinsToSet.toArray(new String[0]);
@@ -364,10 +369,11 @@ class AbuTables {
                     bin_buffer.append("'").append(abu_bins[i]).append("',");
                 }
             }
-
-            System.out.println("Creating stored proc abu_insert_new_records.................");
-            PreparedStatement createSPInsertNewRecordsInABUTable = conn.prepareStatement(AbuSqlScripts.SP_INSERT_NEW_RECORDS_IN_ABU_TABLE_PART_1 + bin_buffer
-                    + AbuSqlScripts.SP_INSERT_NEW_RECORDS_IN_ABU_TABLE_PART_2);
+            System.out.println("Creating stored proc abu_insert_new_records" + "_" + nameOfBank +".................");
+            System.out.println("Done creating stored procedure");
+            PreparedStatement createSPInsertNewRecordsInABUTable = conn.prepareStatement(AbuSqlScripts.SP_INSERT_NEW_RECORDS_IN_ABU_TABLE_PART_1 +
+                    "_" + nameOfBank + "]"  + AbuSqlScripts.SP_INSERT_NEW_RECORD_IN_ABU_TABLE_PART_2 + bin_buffer
+                    + AbuSqlScripts.SP_INSERT_NEW_RECORDS_IN_ABU_TABLE_PART_3);
             createSPInsertNewRecordsInABUTable.execute();
 
             conn.close();

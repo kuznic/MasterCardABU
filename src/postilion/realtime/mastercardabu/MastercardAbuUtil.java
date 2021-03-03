@@ -31,6 +31,9 @@ public class MastercardAbuUtil
         System.out.println("*\t4. CHECKS THAT PC_CARDS AND PC_CARD_ACCOUNTS VIEWS EXIST         *");
         System.out.println("*\t5. CREATE TRIGGERS TO UPDATE RECORDS IN THE PC_CARDS_ABU TABLE   *");
         System.out.println("*\t6. COPY RECORDS FROM PC_CARDS TO THE PC_CARDS_ABU TABLE          *");
+        System.out.println();
+        System.out.println("*\t   PLEASE NOTE, IF THIS IS NOT THE FIRST DEPLOYMENT              *");
+        System.out.println("*\t   SELECT OPTION 6 and 5 TO DEPLOY FOR ANOTHER BANK              *");
         System.out.println("**************************************************************************");
         System.out.println();
         System.out.println();
@@ -41,7 +44,8 @@ public class MastercardAbuUtil
         System.out.println("3. MODIFY PC_CARDS_ABU RECORDS FOR REASON CODE C");
         System.out.println("4. ADD NEW RECORD FOR REASON CODE R");
         System.out.println("5. COPY RECORDS TO PC_CARDS_ABU TABLE");
-        System.out.println("6. EXIT");
+        System.out.println("6. DEPLOY FOR ANOTHER BANK");
+        System.out.println("7. EXIT");
         System.out.println();
         System.out.println("Options 2,3 and 4 should be used only on the test environment");
         System.out.println();
@@ -89,11 +93,32 @@ public class MastercardAbuUtil
                 case 5:
                 {
                     System.out.println();
-                    System.out.println("ENTER ICA BINs SEPARATED BY COMMAS");
-                    String bins = scanner.nextLine();
+                    System.out.println("ENTER ICA BINs SEPARATED BY COMMA");
+                    Scanner bin = new Scanner(System.in);
+                    String bins = bin.nextLine();
                     String[] binsToArray = bins.split(",");
                     abuTables.copyRecordsToAbuTable(binsToArray);
+                    bin.close();
                     break;
+                }
+
+                case 6:
+                {
+                    System.out.println("ENTER A PATH OTHER THAN THE DEFAULT");
+                    createABUFolder.createAbuFolderAndCopyConfigFiles();
+                    abuTables.checkPcCardsView();
+                    abuTables.checkPcCardAccountsView();
+                    abuTables.copyRecordsToAbuTable();
+                    abuTables.createTriggersOnIcaIssuerTables();
+                    abuTables.createProcedureToAutoPopulateAbuTable();
+                    System.out.println();
+                    System.out.println("ENTER ICA BINs SEPARATED BY COMMA");
+                    Scanner bin = new Scanner(System.in);
+                    String bins = bin.nextLine();
+                    String[] binsToArray = bins.split(",");
+                    abuTables.copyRecordsToAbuTable(binsToArray);
+                    bin.close();
+
                 }
 
                 default:

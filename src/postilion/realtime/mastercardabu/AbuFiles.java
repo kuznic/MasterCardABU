@@ -40,14 +40,14 @@ class AbuFiles
 
         if(!abuFolder.exists())
         {
-            System.out.println("Creating c:\\mastercardabu folder......");
+            System.out.println("Creating " + abuWorkingPath + "folder......");
             if(abuFolder.mkdirs()){
-                System.out.println("Folder mastercardabu has been successfully created!");
+                System.out.println("Folder " +  abuWorkingPath + " has been successfully created!");
             }
         }
         else
         {
-            System.out.println("mastercardabu folder already exists in, moving on............");
+            System.out.println(abuWorkingPath +  "folder already exists, moving on............");
         }
 
         String abuFolderPath = abuFolder.getAbsolutePath();
@@ -116,7 +116,6 @@ class AbuFiles
                 }
                 randomAccessFile.close();
                 outFile.close();
-
             }
         }
         //Unzip zipped folders
